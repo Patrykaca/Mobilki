@@ -26,12 +26,22 @@ public class MainActivity extends AppCompatActivity {
 
         }
         Button loginBtn = (Button)findViewById(R.id.loginBtn);
+        Button registerBtn = (Button)findViewById(R.id.registerBtn);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //exit login activity and starts app
                 Intent startIntend = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(startIntend);
+            }
+        });
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //start register activity
+                Intent startIntend = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(startIntend);
             }
         });
