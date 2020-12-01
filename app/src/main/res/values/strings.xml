@@ -2,4 +2,6 @@
     <string name="app_name">Mobilki</string>
     <string name="login_hint">Login</string>
     <string name="password_hint">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
 </resources>
