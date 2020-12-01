@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Mobilki</string>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Password</string>
 </resources>
