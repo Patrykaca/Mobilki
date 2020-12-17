@@ -131,7 +131,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 }
                             });
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Failed to register!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Failed to register!1", Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
