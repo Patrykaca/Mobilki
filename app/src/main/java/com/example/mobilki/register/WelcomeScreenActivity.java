@@ -33,6 +33,5 @@ public class WelcomeScreenActivity extends AppCompatActivity {
 
         welcomeTxt.setText("Welcome in our app!\nThanks for registering\nwe wish you'll\nenjoy using it.\n");
 
-
     }
 }
