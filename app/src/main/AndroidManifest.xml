@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".register.WelcomeScreenActivity"/>
+        <activity android:name=".activities.ShoppingListDetailedActivity"></activity>
+        <activity android:name=".activities.AddShoppingListActivity" />
+        <activity android:name=".activities.ShoppingListActivity" />
+        <activity android:name=".register.WelcomeScreenActivity" />
         <activity android:name=".register.RegisterActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".MainActivity">
