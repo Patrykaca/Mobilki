@@ -10,4 +10,25 @@
     <string name="age_hint">Age</string>
     <string name="btn_login">Login</string>
     <string name="btn_register">Register</string>
+    <string name="add_shop_list">Add shopping list</string>
+    <string name="search">Search</string>
+    <string name="Settings">settings</string>
+    <string name="shop">Shop</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="enter_item">Item </string>
+    <string name="add_item">Add Item</string>
+    <string name="quantity">Quantity</string>
+    <string name="my_profile">My profile</string>
+    <string name="chats">Chats</string>
+    <string name="my_shopping_lists">My shopping lists</string>
+    <string name="my_responses">My responses</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string-array name="measurements">
+        <item>szt</item>
+        <item>op</item>
+        <item>kg</item>
+        <item>g</item>
+    </string-array>
 </resources>

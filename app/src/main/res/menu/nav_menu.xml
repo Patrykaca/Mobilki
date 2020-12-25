@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/my_profile"
+        android:title="@string/my_profile"
+        />
+    <item
+        android:id="@+id/chats"
+        android:title="@string/chats"
+        />
+    <item
+        android:id="@+id/m_shopping_lists"
+        android:title="@string/my_shopping_lists"
+        />
+    <item
+        android:id="@+id/my_responses"
+        android:title="@string/my_responses"
+        />
+    <item
+        android:id="@+id/settings"
+        android:title="@string/Settings"
+        />
+</menu>

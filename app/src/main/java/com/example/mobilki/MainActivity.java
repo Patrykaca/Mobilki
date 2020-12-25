@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.mobilki.activities.ShoppingListActivity;
 import com.example.mobilki.register.RegisterActivity;
 
 import java.util.Objects;
@@ -33,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //exit login activity and starts app
-                Intent startIntend = new Intent(getApplicationContext(), HomeActivity.class);
+
+                //Intent startIntend = new Intent(getApplicationContext(), HomeActivity.class);
+                Intent startIntend = new Intent(getApplicationContext(), ShoppingListActivity.class);
                 startActivity(startIntend);
             }
         });
