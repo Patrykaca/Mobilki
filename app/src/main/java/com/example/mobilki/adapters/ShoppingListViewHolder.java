@@ -34,7 +34,7 @@ public class ShoppingListViewHolder extends RecyclerView.ViewHolder{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), ShoppingListDetailedActivity.class);
-                //intent.putExtra("sh",shL);
+                intent.putExtra("sh",shL);
                 view.getContext().startActivity(intent);
             }
         });

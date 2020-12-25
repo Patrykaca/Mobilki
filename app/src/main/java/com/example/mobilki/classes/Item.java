@@ -1,6 +1,8 @@
 package com.example.mobilki.classes;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private String name;
     private float amount;
     private String measurement;

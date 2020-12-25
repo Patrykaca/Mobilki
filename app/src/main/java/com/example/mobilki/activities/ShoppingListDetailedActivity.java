@@ -21,9 +21,9 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list_detailed);
-        ShoppingList sh = null;
+
         if(getIntent().getExtras() != null){
-            sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
+            ShoppingList sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
 
             cityTextView = findViewById(R.id.cityTextView);
             addressTextView = findViewById(R.id.addressTextView);

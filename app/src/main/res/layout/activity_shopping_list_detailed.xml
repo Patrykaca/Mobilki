@@ -10,18 +10,21 @@
         android:id="@+id/shopTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Detailed shopping list"/>
+        android:textSize="25sp"/>
     <TextView
         android:id="@+id/cityTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="25sp"/>
     <TextView
         android:id="@+id/addressTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="25sp"/>
     <TextView
         android:id="@+id/itemsTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:textSize="20sp"/>
 
 </LinearLayout>

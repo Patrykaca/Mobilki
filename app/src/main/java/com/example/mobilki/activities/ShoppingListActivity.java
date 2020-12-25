@@ -8,30 +8,82 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobilki.R;
 import com.example.mobilki.adapters.ShoppingListAdapter;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingListActivity extends AppCompatActivity {
 
-    private List<ShoppingList> shoppingLists = new ArrayList<>();
     private RecyclerView recyclerView;
     private ShoppingListAdapter adapter;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+
+
+    private List<ShoppingList> shoppingLists = new ArrayList<>();
     private  ArrayList<ShoppingList> sh;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
+
+        drawerLayout = findViewById(R.id.nav_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch (id){
+                    case R.id.my_profile:{
+                        Intent intent = new Intent(getApplicationContext(),MyProfileActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.chats:{
+                        Intent intent = new Intent(getApplicationContext(),ChatsActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.m_shopping_lists:{
+                        Intent intent = new Intent(getApplicationContext(),MyShLActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.my_responses:{
+                        Intent intent = new Intent(getApplicationContext(),MyResponsesActivity.class);
+                        startActivity(intent);
+                        break;
+                    }
+                    case R.id.settings:{
+                        Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    }
+                }
+                return false;
+            }
+        });
 
         setInitData();
         sh = new ArrayList<>();
@@ -96,7 +148,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //TODO settings selected
-        return super.onOptionsItemSelected(item);
+        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     private void setInitData(){
