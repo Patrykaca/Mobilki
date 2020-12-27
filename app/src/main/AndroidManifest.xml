@@ -27,7 +27,7 @@
         <activity android:name=".register.WelcomeScreenActivity" />
         <activity android:name=".register.RegisterActivity" />
         <activity android:name=".HomeActivity"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".LoginActivity"/>
     </application>
 
 </manifest>

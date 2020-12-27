@@ -16,11 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mobilki.LoginActivity;
 import com.example.mobilki.R;
+import com.example.mobilki.StartActivity;
 import com.example.mobilki.adapters.ShoppingListAdapter;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +82,13 @@ public class ShoppingListActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
 
+                    }
+                    case R.id.log_out:{
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        break;
                     }
                 }
                 return false;

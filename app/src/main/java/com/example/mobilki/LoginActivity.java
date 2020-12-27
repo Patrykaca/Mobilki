@@ -17,11 +17,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText loginEditText, passwordEditText;
 
     private FirebaseAuth auth;
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         loginEditText = findViewById(R.id.loginText);
         passwordEditText = findViewById(R.id.passwordText);

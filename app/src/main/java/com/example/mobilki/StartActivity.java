@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class StartActivity extends AppCompatActivity {
+    //TODO sprawdzenie czy jest polaczenie z internetem
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,11 @@ public class StartActivity extends AppCompatActivity {
         // jesli uzytkownik jest zalogowany pomin widok logowania
         if(user !=null){
             Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
