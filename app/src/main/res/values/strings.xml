@@ -31,4 +31,7 @@
         <item>kg</item>
         <item>g</item>
     </string-array>
+    <string name="fields_reuired">All fields required</string>
+    <string name="authorization_failed">Authorization failed</string>
+
 </resources>

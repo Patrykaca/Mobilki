@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.mobilki.R;
 import com.example.mobilki.User;
+import com.example.mobilki.activities.ShoppingListActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -63,6 +64,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
+
+
 
     private void registerUser() {
         final String email = emailText.getText().toString().trim();
@@ -124,6 +127,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     if(task.isSuccessful()) {
                                         Toast.makeText(RegisterActivity.this, "User has been registered successfully!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
+                                        //wchodzi w aktywnosc z listami zakupow jesli udalo sie zarejestrowac
+                                        Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
+                                        startActivity(intent);
                                     } else {
                                         Toast.makeText(RegisterActivity.this, "Failed to register!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
