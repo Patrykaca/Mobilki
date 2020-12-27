@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText loginEditText, passwordEditText;
 
     private FirebaseAuth auth;
@@ -28,12 +28,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        auth = FirebaseAuth.getInstance();
+
+        setContentView(R.layout.activity_login);
 
         loginEditText = findViewById(R.id.loginText);
         passwordEditText = findViewById(R.id.passwordText);
 
-        auth = FirebaseAuth.getInstance();
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
                             }
