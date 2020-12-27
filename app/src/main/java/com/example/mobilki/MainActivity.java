@@ -1,5 +1,6 @@
 package com.example.mobilki;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -7,18 +8,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mobilki.activities.ShoppingListActivity;
 import com.example.mobilki.register.RegisterActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    private EditText loginEditText, passwordEditText;
+
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        loginEditText = findViewById(R.id.loginText);
+        passwordEditText = findViewById(R.id.passwordText);
+
+        auth = FirebaseAuth.getInstance();
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         try {  //hide title bar in login screen
@@ -33,11 +49,28 @@ public class MainActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //exit login activity and starts app
+                String email, password;
+                email = loginEditText.getText().toString();
+                password = passwordEditText.getText().toString();
+                if(email.isEmpty() || password.isEmpty())
+                    Toast.makeText(getApplicationContext(),R.string.fields_reuired,Toast.LENGTH_SHORT).show();
+                else {
+                    auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(),R.string.authorization_failed,Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
 
-                //Intent startIntend = new Intent(getApplicationContext(), HomeActivity.class);
-                Intent startIntend = new Intent(getApplicationContext(), ShoppingListActivity.class);
-                startActivity(startIntend);
+//                Intent startIntend = new Intent(getApplicationContext(), ShoppingListActivity.class);
+//                startActivity(startIntend);
             }
         });
 
