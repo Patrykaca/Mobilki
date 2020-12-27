@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -117,7 +118,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
-                            User user = new User(firstName, lastName, email, age, password);
+                            FirebaseUser fUser = mAuth.getCurrentUser();
+
+                            User user = new User(fUser.getUid(),firstName, lastName, email, age, password);
+
+
 
                             FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -129,6 +134,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                         progressBar.setVisibility(View.GONE);
                                         //wchodzi w aktywnosc z listami zakupow jesli udalo sie zarejestrowac
                                         Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                     } else {
                                         Toast.makeText(RegisterActivity.this, "Failed to register!", Toast.LENGTH_SHORT).show();
