@@ -38,4 +38,19 @@
     <string name="age">Age:</string>
     <string name="log_out">Log out</string>
 
+    <!--introduction-->
+    <string name="title_1">Shopping</string>
+    <string name="description_1">Thanks to this app you can get your daily shops without leaving a house,
+        just create your shopping list and use help of others people.</string>
+
+    <string name="title_2">Helping</string>
+    <string name="description_2">Many people are in quarantine nowadays due to the coronavirus
+        pandemy so they need help with shopping. If you want to help this app is perfect for you.</string>
+
+    <string name="title_3">Payment</string>
+    <string name="description_3">The app is directed to volunteers and people in need.
+        This means that announcements should be free of charge and this way you only
+        pay for your shopping bills.</string>
+
+
 </resources>
