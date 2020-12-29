@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.mobilki.activities.ShoppingListActivity;
 import com.example.mobilki.register.RegisterActivity;
+import com.example.mobilki.register.WelcomeScreenActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -33,8 +34,8 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        loginEditText = findViewById(R.id.loginText);
-        passwordEditText = findViewById(R.id.passwordText);
+        loginEditText = findViewById(R.id.firstNameText);
+        passwordEditText = findViewById(R.id.lastNameText);
 
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -45,8 +46,8 @@ public class LoginActivity extends AppCompatActivity {
         catch (NullPointerException ignored) {
 
         }
-        Button loginBtn = (Button)findViewById(R.id.loginBtn);
-        Button registerBtn = (Button)findViewById(R.id.registerBtn);
+        Button loginBtn = (Button)findViewById(R.id.registerBtn2);
+        Button registerBtn = (Button)findViewById(R.id.loginBtn2);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();

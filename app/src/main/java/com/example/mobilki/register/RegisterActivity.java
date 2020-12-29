@@ -3,6 +3,7 @@ package com.example.mobilki.register;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.MediaCodec;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobilki.LoginActivity;
 import com.example.mobilki.R;
 import com.example.mobilki.User;
 import com.example.mobilki.activities.ShoppingListActivity;
@@ -24,11 +26,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private TextView firstNameText, lastNameText, ageText, passwordText, emailText;
-    Button nextBtn, registerBtn;
+    Button loginBtn, registerBtn;
     ProgressBar progressBar;
 
     @Override
@@ -38,11 +42,18 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         mAuth = FirebaseAuth.getInstance();
 
-        nextBtn = (Button) findViewById(R.id.nextBtn);
-        registerBtn = (Button) findViewById(R.id.registerBtnPage);
+        try {  //hide title bar in register screen
+            Objects.requireNonNull(this.getSupportActionBar()).hide();
+        }
+        catch (NullPointerException ignored) {
+
+        }
+
+        registerBtn = (Button) findViewById(R.id.registerBtn2);
+        loginBtn = findViewById(R.id.loginBtn2);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         registerBtn.setOnClickListener(this);
-        nextBtn.setOnClickListener(this);
+        loginBtn.setOnClickListener(this);
 
         firstNameText = (EditText) findViewById(R.id.firstNameText);
         lastNameText = (EditText) findViewById(R.id.lastNameText);
@@ -50,24 +61,63 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         passwordText = (EditText) findViewById(R.id.passwordText);
         emailText = (EditText) findViewById(R.id.emailText);
 
-
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.registerBtnPage:
+            case R.id.registerBtn2:
                 registerUser();
                 progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(this, WelcomeScreenActivity.class));
                 break;
-//            case R.id.nextBtn:
-//                startActivity(new Intent(this, WelcomeScreenActivity.class));
-//                break;
+            case R.id.loginBtn2:
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
         }
     }
 
+    private boolean validateFields(String firstName, String lastName, String age, String password,
+                                String email) {
+        if (firstName.isEmpty()) {
+            firstNameText.setError("Required!");
+            firstNameText.requestFocus();
+            return false;
+        }
+        if (lastName.isEmpty()) {
+            lastNameText.setError("Required!");
+            lastNameText.requestFocus();
+            return false;
+        }
+        if (age.isEmpty()) {
+            ageText.setError("Required!");
+            ageText.requestFocus();
+            return false;
+        }
+        if (password.isEmpty()) {
+            passwordText.setError("Required!");
+            passwordText.requestFocus();
+            return false;
+        }
+        if (email.isEmpty()) {
+            emailText.setError("Required!");
+            emailText.requestFocus();
+            return false;
+        }
 
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailText.setError("Invalid email!");
+            emailText.requestFocus();
+            return false;
+        }
+
+        if(password.length() < 6) {
+            passwordText.setError("Password must be at least 6 characters!");
+            passwordText.requestFocus();
+            return false;
+        }
+        return true;
+    }
 
     private void registerUser() {
         final String email = emailText.getText().toString().trim();
@@ -76,41 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         final String age = ageText.getText().toString().trim();
         final String password = passwordText.getText().toString().trim();
 
-        if (firstName.isEmpty()) {
-            firstNameText.setError("Required!");
-            firstNameText.requestFocus();
-            return;
-        }
-        if (lastName.isEmpty()) {
-            firstNameText.setError("Required!");
-            firstNameText.requestFocus();
-            return;
-        }
-        if (age.isEmpty()) {
-            firstNameText.setError("Required!");
-            firstNameText.requestFocus();
-            return;
-        }
-        if (password.isEmpty()) {
-            firstNameText.setError("Required!");
-            firstNameText.requestFocus();
-            return;
-        }
-        if (email.isEmpty()) {
-            firstNameText.setError("Required!");
-            firstNameText.requestFocus();
-            return;
-        }
-
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.setError("Invalid email!");
-            emailText.requestFocus();
-            return;
-        }
-
-        if(password.length() < 6) {
-            emailText.setError("Password must be at least 6 characters!");
-            emailText.requestFocus();
+        if(!this.validateFields(firstName, lastName, age, password, email)) {
             return;
         }
 
@@ -131,14 +147,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()) {
-                                        Toast.makeText(RegisterActivity.this, "User has been registered successfully!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this, "Signed up successfully!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                         //wchodzi w aktywnosc z listami zakupow jesli udalo sie zarejestrowac
-                                        Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), WelcomeScreenActivity.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                     } else {
-                                        Toast.makeText(RegisterActivity.this, "Failed to register!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this, "Failed to sign up!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }

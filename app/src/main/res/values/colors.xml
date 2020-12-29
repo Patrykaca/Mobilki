@@ -9,4 +9,6 @@
     <color name="appIntro1">#3cb371</color>
     <color name="appIntro2">#2C86CF</color>
     <color name="appIntro3">#DDAF24</color>
+
+    <color name="btnColor">#9BDD4D</color>
 </resources>

@@ -8,8 +8,8 @@
     <string name="first_name_hint">First name</string>
     <string name="last_name_hint">Last name</string>
     <string name="age_hint">Age</string>
-    <string name="btn_login">Login</string>
-    <string name="btn_register">Register</string>
+    <string name="btn_login">Sign in</string>
+    <string name="btn_register">Sign up</string>
     <string name="add_shop_list">Add shopping list</string>
     <string name="search">Search</string>
     <string name="Settings">settings</string>
@@ -53,6 +53,9 @@
         pay for your shopping bills.</string>
 
     <string name="app">BringMeShopping</string>
+    <string name="welcome">Welcome in</string>
+    <string name="welcomeText_1">Thanks for signing up! We wish you had enjoyed using it.</string>
+    <string name="startUsingBtn">Start using</string>
 
 
 </resources>

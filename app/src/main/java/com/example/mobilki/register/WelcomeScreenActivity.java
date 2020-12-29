@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.mobilki.HomeActivity;
 import com.example.mobilki.R;
 
+import java.util.Objects;
+
 public class WelcomeScreenActivity extends AppCompatActivity {
 
     @Override
@@ -19,9 +21,15 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
 
-        TextView welcomeTxt = (TextView)findViewById(R.id.welcomTextId);
+        try {  //hide title bar in login screen
+            Objects.requireNonNull(this.getSupportActionBar()).hide();
+        }
+        catch (NullPointerException ignored) {
 
-        Button startUsing = (Button)findViewById(R.id.welcomeBtnId);
+        }
+
+
+        Button startUsing = (Button)findViewById(R.id.startUsingBtn);
 
         startUsing.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,7 +39,6 @@ public class WelcomeScreenActivity extends AppCompatActivity {
             }
         });
 
-        welcomeTxt.setText("Welcome in our app!\nThanks for registering\nwe wish you'll\nenjoy using it.\n");
 
     }
 }
