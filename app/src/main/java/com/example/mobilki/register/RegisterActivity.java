@@ -59,10 +59,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.registerBtnPage:
                 registerUser();
                 progressBar.setVisibility(View.VISIBLE);
-                break;
-            case R.id.nextBtn:
                 startActivity(new Intent(this, WelcomeScreenActivity.class));
                 break;
+//            case R.id.nextBtn:
+//                startActivity(new Intent(this, WelcomeScreenActivity.class));
+//                break;
         }
     }
 
