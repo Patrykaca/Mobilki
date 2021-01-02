@@ -37,6 +37,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         User user = users.get(position);
         holder.username.setText(user.getFirstName());
+        holder.userLastname.setText(user.getLastName());
         holder.profile_image.setImageResource(R.drawable.profile_icon);
 
     }
@@ -49,12 +50,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView username;
+        public TextView userLastname;
         public ImageView profile_image;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
+            userLastname = itemView.findViewById(R.id.userLastname);
             profile_image = itemView.findViewById(R.id.profile_image);
         }
     };
