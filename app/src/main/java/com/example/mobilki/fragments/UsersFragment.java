@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UsersFragment extends Fragment {
 
@@ -77,10 +78,11 @@ public class UsersFragment extends Fragment {
                 userList.clear();
                 for(DataSnapshot snapshot1: snapshot.getChildren()) {
                     User user = snapshot1.getValue(User.class);
-                    userList.add(user);
 
 
-                   if(user.getId() != firebaseUser.getUid()) {
+                    assert firebaseUser != null;
+                    assert user != null;
+                    if(!Objects.equals(user.getId(),firebaseUser.getUid())) {
                         userList.add(user);
                     }
                 }

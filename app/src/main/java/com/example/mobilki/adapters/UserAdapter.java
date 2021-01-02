@@ -39,7 +39,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.username.setText(user.getFirstName());
         holder.profile_image.setImageResource(R.drawable.profile_icon);
 
-
     }
 
     @Override
