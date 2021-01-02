@@ -11,4 +11,5 @@
     <color name="appIntro3">#DDAF24</color>
 
     <color name="btnColor">#9BDD4D</color>
+    <color name="darkGrey">#ccc</color>
 </resources>

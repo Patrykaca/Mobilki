@@ -6,9 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".activities.ChatsActivity">
 
-    <TextView
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Chats"
-        android:textSize="20sp"/>
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:background="@color/appIntro1"
+            app:tabSelectedTextColor="@color/darkGrey"
+            app:tabIndicatorColor="@color/darkGrey"
+            app:tabTextColor="@color/colorWhite"
+            android:layout_height="wrap_content" />
+
+    </androidx.viewpager.widget.ViewPager>
+
+
 </LinearLayout>
