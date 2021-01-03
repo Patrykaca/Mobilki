@@ -13,6 +13,10 @@ public class Item implements Serializable {
         this.measurement = measurement;
     }
 
+    public Item() {
+    }
+
+
     public String getName() {
         return name;
     }
