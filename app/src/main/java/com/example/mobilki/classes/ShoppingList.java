@@ -9,15 +9,21 @@ public class ShoppingList implements Serializable {
     private ArrayList<Item> items;
     private String address;
     private String city;
-    //private String userID;
+    private final String userID;
     //private Location
 
-    public ShoppingList(String id, String shop, ArrayList<Item> items, String address, String city) {
+
+    public ShoppingList(String id, String shop, ArrayList<Item> items, String address, String city, String userID) {
         this.id = id;
         this.shop = shop;
         this.items = items;
         this.address = address;
         this.city = city;
+        this.userID = userID;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 
     public String getId() {
