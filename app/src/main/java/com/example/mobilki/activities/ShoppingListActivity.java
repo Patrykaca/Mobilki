@@ -69,6 +69,37 @@ public class ShoppingListActivity extends AppCompatActivity {
         //nasluchiwanie przycisku dodaj liste zakupow
         initAddShoppingListButtonListener();
 
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                ShoppingList newShL = snapshot.getValue(ShoppingList.class);
+                shoppingLists.add(newShL);
+//                adapter = new ShoppingListAdapter(getApplicationContext(),shoppingLists);
+//                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
     }
 
@@ -80,6 +111,9 @@ public class ShoppingListActivity extends AppCompatActivity {
 //            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 //                ShoppingList newShL = snapshot.getValue(ShoppingList.class);
 //                shoppingLists.add(newShL);
+////                adapter = new ShoppingListAdapter(getApplicationContext(),shoppingLists);
+////                recyclerView.setAdapter(adapter);
+//                adapter.notifyDataSetChanged();
 //            }
 //
 //            @Override

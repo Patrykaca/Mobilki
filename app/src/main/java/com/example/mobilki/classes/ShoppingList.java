@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ShoppingList implements Serializable {
-    private final String id;
+    private String id;
     private String shop;
     private ArrayList<Item> items;
     private String address;
     private String city;
-    private final String userID;
+    private String userID;
     //private Location
 
 
@@ -19,6 +19,17 @@ public class ShoppingList implements Serializable {
         this.items = items;
         this.address = address;
         this.city = city;
+        this.userID = userID;
+    }
+
+    public ShoppingList() {
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
