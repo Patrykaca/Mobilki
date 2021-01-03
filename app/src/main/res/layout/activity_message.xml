@@ -23,17 +23,28 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/profile_image"/>
+                android:id="@+id/profile_image"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/profile_icon"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/username"
                 android:textSize="18sp"
-                android:layout_marginLeft="25dp"
                 android:textColor="#fff"
                 android:textStyle="bold"
                 android:layout_marginStart="25dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userLastname"
+                android:textSize="18sp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/username" />
 
         </androidx.appcompat.widget.Toolbar>
 

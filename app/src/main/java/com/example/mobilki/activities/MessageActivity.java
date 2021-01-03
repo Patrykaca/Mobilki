@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class MessageActivity extends AppCompatActivity {
 
     CircleImageView profile_image;
     TextView username;
+    TextView userLastname;
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -45,7 +47,7 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {  //hide title bar in login screen
+        try {
             Objects.requireNonNull(this.getSupportActionBar()).hide();
         }
         catch (NullPointerException ignored) {
@@ -55,6 +57,7 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +68,7 @@ public class MessageActivity extends AppCompatActivity {
 
         profile_image = findViewById(R.id.profile_image);
         username = findViewById(R.id.username);
+        userLastname = findViewById(R.id.userLastname);
         btn_send = findViewById(R.id.btn_send);
         text_send = findViewById(R.id.text_send);
 
@@ -92,14 +96,9 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
+                assert user != null;
                 username.setText(user.getFirstName());
-                //TODO: Konrad sprawdź!!!!!!
-            // w tutorialu było też coś takiego ale u nas chyba zbędnę nie wiem
-           //     if (!msg.equals("")){
-           //         sendMessage(fuser.getUid(), userid, msg);
-           //     } else {
-           //         Toast.makeText(MessageActivity.this, "You can't send empty message", Toast.LENGTH_SHORT).show();
-           //     }
+                userLastname.setText(user.getLastName());
             }
 
             @Override
