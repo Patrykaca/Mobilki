@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -47,7 +48,11 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 username.setText(user.getFirstName());
-                image_profile.setImageResource(R.mipmap.ic_launcher);
+                if (user.getImageUrl().equals("default")) {
+                    image_profile.setImageResource(R.drawable.account_icon);
+                } else {
+                    Picasso.get().load(user.getImageUrl()).into(image_profile);
+                }
 
             }
 
