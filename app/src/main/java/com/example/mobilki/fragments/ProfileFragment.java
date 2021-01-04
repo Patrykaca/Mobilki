@@ -37,6 +37,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -46,6 +47,7 @@ public class ProfileFragment extends Fragment {
 
     CircleImageView image_profile;
     TextView username;
+    TextView userLastname;
 
     DatabaseReference reference;
     FirebaseUser firebaseUser;
@@ -62,7 +64,9 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         image_profile = view.findViewById(R.id.profile_image);
+
         username = view.findViewById(R.id.username);
+        userLastname = view.findViewById(R.id.userLastname);
 
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
@@ -74,8 +78,9 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 username.setText(user.getFirstName());
-                if (user.getImageUrl().equals("default")) {
-                    image_profile.setImageResource(R.drawable.account_icon);
+                userLastname.setText(user.getLastName());
+                if (Objects.equals(user.getImageUrl(), "default")) {
+                    image_profile.setImageResource(R.drawable.profile_icon);
                 } else {
                     Picasso.get().load(user.getImageUrl()).into(image_profile);
                 }
