@@ -19,14 +19,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobilki.LoginActivity;
 import com.example.mobilki.R;
 import com.example.mobilki.StartActivity;
+import com.example.mobilki.User;
 import com.example.mobilki.adapters.ShoppingListAdapter;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShoppingListActivity extends AppCompatActivity {
 
@@ -38,12 +49,16 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     private List<ShoppingList> shoppingLists = new ArrayList<>();
     private  ArrayList<ShoppingList> sh;
+    private CircleImageView circleImageView;
+    FirebaseUser firebaseUser;
+    DatabaseReference databaseReference;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
+
 
         drawerLayout = findViewById(R.id.nav_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
@@ -52,6 +67,9 @@ public class ShoppingListActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.inflateHeaderView(R.layout.navigation_header);
+        circleImageView = headerView.findViewById(R.id.profile_image_nav);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -95,6 +113,27 @@ public class ShoppingListActivity extends AppCompatActivity {
             }
         });
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User _user = snapshot.getValue(User.class);
+                assert _user != null;
+                if(Objects.equals(_user.getImageUrl(), "default")) {
+                    circleImageView.setImageResource(R.drawable.profile_icon);
+                }
+                else {
+                    Picasso.get().load(_user.getImageUrl()).into(circleImageView);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         setInitData();
         sh = new ArrayList<>();
         recyclerView = findViewById(R.id.shoppingListsRecyclerView);
@@ -110,6 +149,8 @@ public class ShoppingListActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
