@@ -1,6 +1,8 @@
 package com.example.mobilki.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobilki.R;
+import com.example.mobilki.adapters.ItemsAdapter;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,11 +40,13 @@ public class AddShoppingListActivity extends AppCompatActivity {
     private Spinner mSpinner;
     private Button addItemBtn;
     private Button addShLBtn;
-    private TextView itemsTextView;
+//    private TextView itemsTextView;
+    private RecyclerView itemsRecyclerView;
     private ArrayAdapter<CharSequence> adapter;
 
     private String measure;
     private ArrayList<Item> items;
+    private ItemsAdapter recyclerAdapter;
 
     private DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
@@ -125,7 +130,8 @@ public class AddShoppingListActivity extends AppCompatActivity {
                     items.add(item);
                     itemEditText.setText("");
                     quantityEditText.setText("");
-                    redraw();
+                    recyclerAdapter.notifyDataSetChanged();
+                    //redraw();
                     Log.d("AddLog","Item added");
                 }
                 else{
@@ -159,13 +165,20 @@ public class AddShoppingListActivity extends AppCompatActivity {
         addressEditText = findViewById(R.id.addressEditText);
         itemEditText = findViewById(R.id.itemNameEditText);
         quantityEditText = findViewById(R.id.itemQuantityEditText);
-        itemsTextView = findViewById(R.id.addedItemsTextView);
+//        itemsTextView = findViewById(R.id.addedItemsTextView);
         addItemBtn = findViewById(R.id.addItemButton);
         addShLBtn = findViewById(R.id.addShLButton);
+        itemsRecyclerView = findViewById(R.id.itemsList);
+
         adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                 R.array.measurements, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
+
+        recyclerAdapter = new ItemsAdapter(this,items);
+        //recyclerAdapter = new ItemsAdapter(items);
+        itemsRecyclerView.setAdapter(recyclerAdapter);
+        itemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     //sprawdzenie czy podano poprawne wartosci do utworzenia ogloszenia
@@ -193,7 +206,7 @@ public class AddShoppingListActivity extends AppCompatActivity {
             builder.append(i.getMeasurement());
             builder.append("\n");
         }
-        itemsTextView.setText(builder.toString());
+        //itemsTextView.setText(builder.toString());
     }
 
     //sprawdzenie czy lancuch znakow jest liczba

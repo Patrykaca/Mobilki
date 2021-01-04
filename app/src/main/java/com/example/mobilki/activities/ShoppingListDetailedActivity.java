@@ -1,13 +1,22 @@
 package com.example.mobilki.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mobilki.R;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -17,13 +26,20 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
     private TextView itemsTextView;
     private TextView shopTextView;
 
+    private ShoppingList sh;
+
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase firebaseDatabase;
+    private FirebaseUser firebaseUser;
+    private FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list_detailed);
 
         if(getIntent().getExtras() != null){
-            ShoppingList sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
+            sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
 
             cityTextView = findViewById(R.id.cityTextView);
             addressTextView = findViewById(R.id.addressTextView);
@@ -46,7 +62,41 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
             itemsTextView.setText(builder.toString());
         }
 
+        initFirebaseConnection();
 
+    }
 
+    private void initFirebaseConnection() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("Advertisements").child(sh.getId());
+        databaseReference.keepSynced(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.edit_remove_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.deleteOption:{
+                databaseReference.removeValue();
+                Toast.makeText(getApplicationContext(), "Delete pressed", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),ShoppingListActivity.class));
+                finish();
+                break;
+            }
+
+            case R.id.editOption:{
+                Toast.makeText(getApplicationContext(), "Edit pressed", Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
