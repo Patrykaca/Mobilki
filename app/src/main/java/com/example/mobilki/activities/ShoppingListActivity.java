@@ -238,30 +238,4 @@ public class ShoppingListActivity extends AppCompatActivity {
         return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
-//    private void setInitData(){
-//        ArrayList<Item> items = new ArrayList<>();
-//        items.add(new Item("Pierogi",  2,"opakowanie"));
-//        items.add(new Item("Pomidor", (float) 1.5,"kg"));
-//        items.add(new Item("Kapusta",2,"szt"));
-//        items.add(new Item("Wolowina", (float) 3.5,"kg"));
-//        items.add(new Item("Kurczak", (float) 0.5,"kg"));
-//        items.add(new Item("Buraczki",5,"szt"));
-//        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
-//        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));
-//    }
 }
