@@ -1,12 +1,14 @@
 package com.example.mobilki;
 
 public class User {
+
     private String id;
     private String firstName;
     private String lastName;
     private String email;
     private String age;
     private String password;
+    private String imageUrl;
 
     public User(String id, String firstName, String lastName, String email, String age, String password) {
         this.id = id;
@@ -15,6 +17,7 @@ public class User {
         this.email = email;
         this.age = age;
         this.password = password;
+
     }
 
     public User() {

@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import com.example.mobilki.R;
 import com.example.mobilki.fragments.ChatsFragment;
+import com.example.mobilki.fragments.ProfileFragment;
 import com.example.mobilki.fragments.UsersFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -31,6 +32,7 @@ public class ChatsActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
         viewPagerAdapter.addFragment(new UsersFragment(), "Users");
+        viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
