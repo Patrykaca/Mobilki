@@ -32,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private FirebaseAuth mAuth;
     private TextView firstNameText, lastNameText, ageText, passwordText, emailText;
+    private String imageUrl = "default";
     Button loginBtn, registerBtn;
     ProgressBar progressBar;
 
@@ -137,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         if(task.isSuccessful()) {
                             FirebaseUser fUser = mAuth.getCurrentUser();
 
-                            User user = new User(fUser.getUid(),firstName, lastName, email, age, password);
+                            User user = new User(fUser.getUid(),firstName, lastName, email, age, password, imageUrl);
 
 
 

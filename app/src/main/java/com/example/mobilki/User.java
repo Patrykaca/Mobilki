@@ -10,13 +10,14 @@ public class User {
     private String password;
     private String imageUrl;
 
-    public User(String id, String firstName, String lastName, String email, String age, String password) {
+    public User(String id, String firstName, String lastName, String email, String age, String password, String imageUrl) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
         this.password = password;
+        this.imageUrl = imageUrl;
 
     }
 
@@ -69,5 +70,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

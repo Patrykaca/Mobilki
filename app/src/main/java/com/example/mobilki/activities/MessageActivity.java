@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,7 +118,12 @@ public class MessageActivity extends AppCompatActivity {
                 assert user != null;
                 username.setText(user.getFirstName());
                 userLastname.setText(user.getLastName());
-                readMessages(firebaseUser.getUid(), user.getId());
+                if (user.getImageUrl().equals("default")) {
+                    profile_image.setImageResource(R.drawable.account_icon);
+                } else {
+                    Picasso.get().load(user.getImageUrl()).into(profile_image);
+                }
+                readMessages(firebaseUser.getUid(), user.getId(), user.getImageUrl());
             }
 
             @Override
@@ -139,7 +145,7 @@ public class MessageActivity extends AppCompatActivity {
         reference.child("Chats").push().setValue(hashMap);
     }
 
-    private void readMessages(final String userId1, final String userId2) {
+    private void readMessages(final String userId1, final String userId2, final String imageurl) {
         chats = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
@@ -154,7 +160,7 @@ public class MessageActivity extends AppCompatActivity {
                         chats.add(_chat);
                     }
                 }
-                messageAdapter = new MessageAdapter(MessageActivity.this, chats);
+                messageAdapter = new MessageAdapter(MessageActivity.this, chats, imageurl);
                 recyclerView.setAdapter(messageAdapter);
 
             }

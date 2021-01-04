@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobilki.R;
 import com.example.mobilki.User;
 import com.example.mobilki.activities.MessageActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,7 +41,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         final User user = users.get(position);
         holder.username.setText(user.getFirstName());
         holder.userLastname.setText(user.getLastName());
-        holder.profile_image.setImageResource(R.drawable.profile_icon);
+        if (user.getImageUrl().equals("default")) {
+            holder.profile_image.setImageResource(R.drawable.profile_icon);
+        } else {
+            Picasso.get().load(user.getImageUrl()).into(holder.profile_image);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

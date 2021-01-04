@@ -15,6 +15,7 @@ import com.example.mobilki.R;
 import com.example.mobilki.classes.Chat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,12 +26,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static final int MSG_TYPE_RIGHT = 1;
     private Context context;
     private List<Chat> chat;
+    String imageUrl;
 
     FirebaseUser fUser;
 
-    public MessageAdapter(Context context, List<Chat> chat) {
+    public MessageAdapter(Context context, List<Chat> chat, String imageUrl) {
         this.chat = chat;
         this.context = context;
+        this.imageUrl = imageUrl;
     }
 
     @NonNull
@@ -55,7 +58,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         holder.show_message.setText(_chat.getMessage());
 
-
+        if (imageUrl.equals("default")) {
+            holder.profile_image.setImageResource(R.drawable.profile_icon);
+        } else {
+            Picasso.get().load(imageUrl).into(holder.profile_image);
+        }
 
     }
 
