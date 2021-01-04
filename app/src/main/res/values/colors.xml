@@ -15,4 +15,7 @@
     <color name="messages">#226E6E</color>
     <color name="bar">#226E50</color>
     <color name="barUpper">#1D5C43</color>
+
+    <color name="statusOnline">#05df29</color>
+    <color name="statusOffline">#D80606</color>
 </resources>

@@ -17,15 +17,18 @@ import com.example.mobilki.activities.MessageActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private Context context;
     private List<User> users;
+    private boolean ischat;
 
-    public UserAdapter(Context context, List<User> users) {
+    public UserAdapter(Context context, List<User> users, boolean ischat) {
         this.users = users;
         this.context = context;
+        this.ischat = ischat;
     }
 
     @NonNull
@@ -45,6 +48,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             holder.profile_image.setImageResource(R.drawable.profile_icon);
         } else {
             Picasso.get().load(user.getImageUrl()).into(holder.profile_image);
+        }
+
+        if(ischat) {
+            if(Objects.equals(user.getStatus(), "online")) {
+                holder.img_online.setVisibility(View.VISIBLE);
+                holder.img_offline.setVisibility(View.GONE);
+            }
+            else {
+                holder.img_online.setVisibility(View.GONE);
+                holder.img_offline.setVisibility(View.VISIBLE);
+            }
+        }
+        else {
+            holder.img_online.setVisibility(View.GONE);
+            holder.img_offline.setVisibility(View.GONE);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +85,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView username;
         public TextView userLastname;
         public ImageView profile_image;
-
+        public ImageView img_online;
+        public ImageView img_offline;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +94,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             username = itemView.findViewById(R.id.username);
             userLastname = itemView.findViewById(R.id.userLastname);
             profile_image = itemView.findViewById(R.id.profile_image);
+            img_online = itemView.findViewById(R.id.img_status_online);
+            img_offline = itemView.findViewById(R.id.img_status_offline);
+
         }
     };
 }

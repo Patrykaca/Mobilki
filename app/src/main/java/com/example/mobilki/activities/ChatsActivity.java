@@ -15,8 +15,13 @@ import com.example.mobilki.fragments.ChatsFragment;
 import com.example.mobilki.fragments.ProfileFragment;
 import com.example.mobilki.fragments.UsersFragment;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChatsActivity extends AppCompatActivity {
 
@@ -72,5 +77,25 @@ public class ChatsActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }
+    }
+
+    private void setUserStatus(String status) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+        databaseReference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUserStatus("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setUserStatus("offline");
     }
 }

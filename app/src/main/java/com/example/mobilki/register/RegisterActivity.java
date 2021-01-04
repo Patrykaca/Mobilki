@@ -138,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         if(task.isSuccessful()) {
                             FirebaseUser fUser = mAuth.getCurrentUser();
 
-                            User user = new User(fUser.getUid(),firstName, lastName, email, age, password, imageUrl);
+                            User user = new User(fUser.getUid(),firstName, lastName, email, age, password, imageUrl, "offline");
 
 
 
