@@ -72,7 +72,6 @@ public class UsersFragment extends Fragment {
         userList = new ArrayList<>();
         readUsers();
         search_users = view.findViewById(R.id.search_users);
-        search_users.setText("Jan Pa");
         search_users.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -95,27 +94,6 @@ public class UsersFragment extends Fragment {
 
     private void filterUsers(final String s) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("firstname").startAt(s).endAt(s + "\uf8ff");
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                userList.clear();
-//                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    User _user = dataSnapshot.getValue(User.class);
-//
-//                    if(!Objects.equals(firebaseUser.getUid(), _user.getId())) {
-//                        userList.add(_user);
-//                    }
-//                }
-//                userAdapter = new UserAdapter(getContext(), userList, false);
-//                recyclerView.setAdapter(userAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
         final DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("Users");
         firebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -137,8 +115,8 @@ public class UsersFragment extends Fragment {
                                     userList.add(_user);
                                 }
                             }catch (ArrayIndexOutOfBoundsException e) {
-                                if(_user.getFirstName().toLowerCase().contains(parts[0])
-                                        || _user.getLastName().toLowerCase().contains(parts[0])) {
+                                if(_user.getFirstName().toLowerCase().contains(s.replace(" ", ""))
+                                        || _user.getLastName().toLowerCase().contains(s.replace(" ", ""))) {
                                     userList.add(_user);
                                 }
                             }
