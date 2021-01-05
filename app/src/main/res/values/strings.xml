@@ -61,6 +61,7 @@
     <string name="type_a_message">Type a message...</string>
     <string name="username">username</string>
     <string name="profile">Your profile</string>
+    <string name="search_users">Type to search...</string>
 
 
 </resources>
