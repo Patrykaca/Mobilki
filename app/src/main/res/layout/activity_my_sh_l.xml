@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MyShLActivity">
+    tools:context=".activities.MyShLActivity"
+    android:orientation="vertical">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myShLRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="My shopping lists"
-        android:textSize="20sp"/>
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

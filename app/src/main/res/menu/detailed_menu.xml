@@ -13,5 +13,10 @@
         android:title="@string/delete"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_baseline_delete_outline_24"/>
+    <item
+        android:id="@+id/respondOption"
+        android:title="@string/respond"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_message_24"/>
 
 </menu>

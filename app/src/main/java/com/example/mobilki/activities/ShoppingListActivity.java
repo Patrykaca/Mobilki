@@ -95,8 +95,11 @@ public class ShoppingListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 ShoppingList newShL = snapshot.getValue(ShoppingList.class);
-                shoppingLists.add(newShL);
-                adapter.notifyDataSetChanged();
+                if(!firebaseUser.getUid().equals(newShL.getUserID())){
+                    shoppingLists.add(newShL);
+                    adapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override
@@ -265,12 +268,14 @@ public class ShoppingListActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    //wyszukiwanie wedlug imiona nazwiska oraz adresu
     private void filter(String newText) {
         sh.clear();
         for(ShoppingList i : shoppingLists){
-            String shop = i.getShop().toLowerCase();
+            //String shop = i.getShop().toLowerCase();
 
-            if(shop.contains(newText.toLowerCase()))
+            if( i.getNameSurname().toLowerCase().contains(newText.toLowerCase())
+                    || i.getAddress().toLowerCase().contains(newText.toLowerCase()))
             {
                 sh.add(i);
             }
@@ -286,35 +291,6 @@ public class ShoppingListActivity extends AppCompatActivity {
     }
 
 
-    private void setInitData(){
-        ArrayList<Item> items = new ArrayList<>();
-        items.add(new Item("Pierogi",  2,"opakowanie"));
-        items.add(new Item("Pomidor", (float) 1.5,"kg"));
-        items.add(new Item("Kapusta",2,"szt"));
-        items.add(new Item("Wolowina", (float) 3.5,"kg"));
-        items.add(new Item("Kurczak", (float) 0.5,"kg"));
-        items.add(new Item("Buraczki",5,"szt"));
-        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz",firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz", firebaseUser.getUid()));
-        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz", firebaseUser.getUid()));
-    }
 
     private void setUserStatus(String status) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
