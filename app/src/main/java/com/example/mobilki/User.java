@@ -1,20 +1,26 @@
 package com.example.mobilki;
 
 public class User {
+
     private String id;
     private String firstName;
     private String lastName;
     private String email;
     private String age;
     private String password;
+    private String imageUrl;
+    private String status;
 
-    public User(String id, String firstName, String lastName, String email, String age, String password) {
+    public User(String id, String firstName, String lastName, String email, String age, String password, String imageUrl,
+                String status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.age = age;
         this.password = password;
+        this.imageUrl = imageUrl;
+        this.status = status;
     }
 
     public User() {
@@ -66,5 +72,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

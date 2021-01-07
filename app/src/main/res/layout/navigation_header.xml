@@ -6,11 +6,12 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/colorGrey">
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@drawable/account_icon"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/profile_image_nav"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
 
 </LinearLayout>

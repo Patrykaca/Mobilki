@@ -60,6 +60,12 @@
     <string name="welcome">Welcome in</string>
     <string name="welcomeText_1">Thanks for signing up! We wish you had enjoyed using it.</string>
     <string name="startUsingBtn">Start using</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="type_a_message">Type a message...</string>
+    <string name="username">username</string>
+    <string name="profile">Your profile</string>
+    <string name="search_users">Type to search...</string>
 
 
 </resources>

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobilki.LoginActivity;
 import com.example.mobilki.R;
 import com.example.mobilki.StartActivity;
+import com.example.mobilki.User;
 import com.example.mobilki.adapters.ShoppingListAdapter;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
@@ -27,13 +28,22 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ShoppingListActivity extends AppCompatActivity {
 
@@ -44,6 +54,10 @@ public class ShoppingListActivity extends AppCompatActivity {
     NavigationView navigationView;
 
     private List<ShoppingList> shoppingLists = new ArrayList<>();
+
+
+    private CircleImageView circleImageView;
+
     private  ArrayList<ShoppingList> sh = new ArrayList<>();
 
     private DatabaseReference databaseReference;
@@ -53,10 +67,23 @@ public class ShoppingListActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
+
+
+
+        drawerLayout = findViewById(R.id.nav_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.inflateHeaderView(R.layout.navigation_header);
+        circleImageView = headerView.findViewById(R.id.profile_image_nav);
 
         initFirebaseConnection();
 
@@ -164,7 +191,7 @@ public class ShoppingListActivity extends AppCompatActivity {
                     case R.id.log_out:{
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent(getApplicationContext(), StartActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         break;
                     }
@@ -174,6 +201,31 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
     }
 
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User _user = snapshot.getValue(User.class);
+                assert _user != null;
+                if(Objects.equals(_user.getImageUrl(), "default")) {
+                    circleImageView.setImageResource(R.drawable.profile_icon);
+                }
+                else {
+                    Picasso.get().load(_user.getImageUrl()).into(circleImageView);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        setInitData();
+        sh = new ArrayList<>();
+
     private void initViews() {
         drawerLayout = findViewById(R.id.nav_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
@@ -182,11 +234,14 @@ public class ShoppingListActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
         navigationView = findViewById(R.id.nav_view);
+
         recyclerView = findViewById(R.id.shoppingListsRecyclerView);
 
         adapter = new ShoppingListAdapter(this,shoppingLists);
         recyclerView.setAdapter(adapter);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -238,4 +293,51 @@ public class ShoppingListActivity extends AppCompatActivity {
         return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
+
+    private void setInitData(){
+        ArrayList<Item> items = new ArrayList<>();
+        items.add(new Item("Pierogi",  2,"opakowanie"));
+        items.add(new Item("Pomidor", (float) 1.5,"kg"));
+        items.add(new Item("Kapusta",2,"szt"));
+        items.add(new Item("Wolowina", (float) 3.5,"kg"));
+        items.add(new Item("Kurczak", (float) 0.5,"kg"));
+        items.add(new Item("Buraczki",5,"szt"));
+        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));
+    }
+
+    private void setUserStatus(String status) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("status", status);
+        databaseReference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUserStatus("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        setUserStatus("offline");
+    }
 }
