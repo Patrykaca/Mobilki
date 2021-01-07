@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AddShoppingListActivity extends AppCompatActivity {
@@ -53,6 +54,7 @@ public class AddShoppingListActivity extends AppCompatActivity {
     String nameSurname;
     private ArrayList<Item> items;
     private ItemsAdapter recyclerAdapter;
+    ShoppingList sh;
 
     private DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
@@ -123,17 +125,34 @@ public class AddShoppingListActivity extends AppCompatActivity {
 
                     if(shopEditText.getText().toString().isEmpty())
                         shop = "Any";
-                    DatabaseReference newPost = databaseReference.push();
+                    if(getIntent().getExtras() == null){
+                        DatabaseReference newPost = databaseReference.push();
 
-                    ShoppingList shoppingList = new ShoppingList(newPost.getKey(),shop,items,address,city,firebaseUser.getUid(),nameSurname,"posted","");
-                    newPost.setValue(shoppingList).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(getApplicationContext(), "Shopping list posted", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),ShoppingListActivity.class));
-                            finish();
-                        }
-                    });
+                        ShoppingList shoppingList = new ShoppingList(newPost.getKey(),shop,items,address,city,firebaseUser.getUid(),nameSurname,"posted","");
+                        newPost.setValue(shoppingList).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getApplicationContext(), "Shopping list posted", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(),ShoppingListActivity.class));
+                                finish();
+                            }
+                        });
+                    }else{
+
+                        HashMap hashMap = new HashMap();
+                        hashMap.put("city",city);
+                        hashMap.put("address",address);
+                        hashMap.put("items",items);
+                        hashMap.put("shop",shop);
+                        databaseReference.child(sh.getId()).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                Toast.makeText(getApplicationContext(), "Shopping list updated", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
+                                finish();
+                            }
+                        });
+                    }
 
                 }
                 else{
@@ -204,6 +223,15 @@ public class AddShoppingListActivity extends AppCompatActivity {
         //recyclerAdapter = new ItemsAdapter(items);
         itemsRecyclerView.setAdapter(recyclerAdapter);
         itemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        if(getIntent().getExtras() != null){
+            sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
+            Toast.makeText(this,sh.getAddress(),Toast.LENGTH_SHORT).show();
+            addressEditText.setText(sh.getAddress());
+            cityEditText.setText(sh.getCity());
+            shopEditText.setText(sh.getShop());
+            items.addAll(sh.getItems());
+        }
     }
 
     //sprawdzenie czy podano poprawne wartosci do utworzenia ogloszenia
