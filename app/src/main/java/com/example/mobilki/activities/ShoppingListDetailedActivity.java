@@ -103,6 +103,9 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
 
             case R.id.editOption:{
                 Toast.makeText(getApplicationContext(), "Edit pressed", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, AddShoppingListActivity.class);
+                intent.putExtra("sh",sh);
+                startActivity(intent);
                 break;
             }
             case R.id.respondOption:{
