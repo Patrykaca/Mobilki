@@ -30,6 +30,7 @@
         <item>op</item>
         <item>kg</item>
         <item>g</item>
+        <item>L</item>
     </string-array>
     <string name="fields_reuired">All fields required</string>
     <string name="authorization_failed">Authorization failed</string>
@@ -37,6 +38,9 @@
     <string name="surname">Surname:</string>
     <string name="age">Age:</string>
     <string name="log_out">Log out</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
 
     <!--introduction-->
     <string name="title_1">Shopping</string>

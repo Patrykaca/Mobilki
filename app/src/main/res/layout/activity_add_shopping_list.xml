@@ -25,12 +25,16 @@
         android:layout_height="wrap_content"
         android:hint="@string/city"
         android:textSize="20sp"/>
-
-    <TextView
-        android:id="@+id/addedItemsTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="20sp"/>
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,7 +70,7 @@
 
     <Button
         android:id="@+id/addShLButton"
-        android:text="@string/add_shop_list"
+        android:text="@string/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

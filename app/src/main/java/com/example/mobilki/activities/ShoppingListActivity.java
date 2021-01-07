@@ -11,6 +11,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -26,12 +27,16 @@ import com.example.mobilki.classes.ShoppingList;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,19 +51,28 @@ public class ShoppingListActivity extends AppCompatActivity {
     private ShoppingListAdapter adapter;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-
+    NavigationView navigationView;
 
     private List<ShoppingList> shoppingLists = new ArrayList<>();
-    private  ArrayList<ShoppingList> sh;
+
+
     private CircleImageView circleImageView;
-    FirebaseUser firebaseUser;
-    DatabaseReference databaseReference;
+
+    private  ArrayList<ShoppingList> sh = new ArrayList<>();
+
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase firebaseDatabase;
+    private FirebaseUser firebaseUser;
+    private FirebaseAuth firebaseAuth;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
+
 
 
         drawerLayout = findViewById(R.id.nav_drawer_layout);
@@ -71,6 +85,78 @@ public class ShoppingListActivity extends AppCompatActivity {
         View headerView = navigationView.inflateHeaderView(R.layout.navigation_header);
         circleImageView = headerView.findViewById(R.id.profile_image_nav);
 
+        initFirebaseConnection();
+
+        //inicjalizacja komponentow widoku
+        initViews();
+
+        //obsluga menu dla navigacji aplikacja
+        setNavigationListener();
+
+        //nasluchiwanie przycisku dodaj liste zakupow
+        initAddShoppingListButtonListener();
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        shoppingLists.clear();
+        databaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                ShoppingList newShL = snapshot.getValue(ShoppingList.class);
+                shoppingLists.add(newShL);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void initFirebaseConnection() {
+       firebaseAuth = FirebaseAuth.getInstance();
+       firebaseUser = firebaseAuth.getCurrentUser();
+
+       firebaseDatabase = FirebaseDatabase.getInstance();
+       databaseReference = firebaseDatabase.getReference().child("Advertisements");
+       databaseReference.keepSynced(true);
+    }
+
+
+
+    private void initAddShoppingListButtonListener() {
+        Button addSh = findViewById(R.id.addShLButton);
+        addSh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),AddShoppingListActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setNavigationListener() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -113,6 +199,8 @@ public class ShoppingListActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -137,18 +225,20 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         setInitData();
         sh = new ArrayList<>();
+
+    private void initViews() {
+        drawerLayout = findViewById(R.id.nav_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        navigationView = findViewById(R.id.nav_view);
+
         recyclerView = findViewById(R.id.shoppingListsRecyclerView);
+
         adapter = new ShoppingListAdapter(this,shoppingLists);
         recyclerView.setAdapter(adapter);
-
-        Button addSh = findViewById(R.id.addShLButton);
-        addSh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),AddShoppingListActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
 
@@ -202,6 +292,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         //TODO settings selected
         return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
+
 
     private void setInitData(){
         ArrayList<Item> items = new ArrayList<>();
