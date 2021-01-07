@@ -66,6 +66,10 @@
     <string name="username">username</string>
     <string name="profile">Your profile</string>
     <string name="search_users">Type to search...</string>
+    <string name="delievery_address">Delievery address:</string>
+    <string name="items">Items:</string>
+    <string name="status">status:</string>
+    <string name="respond">Respond</string>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.example.mobilki.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,14 +19,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobilki.R;
+import com.example.mobilki.User;
 import com.example.mobilki.adapters.ItemsAdapter;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +50,7 @@ public class AddShoppingListActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> adapter;
 
     private String measure;
+    String nameSurname;
     private ArrayList<Item> items;
     private ItemsAdapter recyclerAdapter;
 
@@ -52,6 +58,7 @@ public class AddShoppingListActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
+    DatabaseReference reference;
 
 
     @Override
@@ -79,12 +86,29 @@ public class AddShoppingListActivity extends AppCompatActivity {
     }
 
     private void initFirebaseConnection() {
+        nameSurname = "";
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Advertisements");
         databaseReference.keepSynced(true);
+
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                nameSurname = user.getFirstName() + " " + user.getLastName();
+                Log.d("NameSurname:", nameSurname);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void initAddShLButtonListener() {
@@ -100,7 +124,8 @@ public class AddShoppingListActivity extends AppCompatActivity {
                     if(shopEditText.getText().toString().isEmpty())
                         shop = "Any";
                     DatabaseReference newPost = databaseReference.push();
-                    ShoppingList shoppingList = new ShoppingList(newPost.getKey(),shop,items,address,city,firebaseUser.getUid());
+
+                    ShoppingList shoppingList = new ShoppingList(newPost.getKey(),shop,items,address,city,firebaseUser.getUid(),nameSurname,"posted","");
                     newPost.setValue(shoppingList).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

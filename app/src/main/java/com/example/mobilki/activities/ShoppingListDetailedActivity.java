@@ -77,7 +77,16 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.edit_remove_menu,menu);
+        getMenuInflater().inflate(R.menu.detailed_menu,menu);
+        if(getIntent().getExtras()!=null){
+            if(getIntent().getExtras().getBoolean("edit")){
+                menu.getItem(2).setVisible(false);
+            }
+            else{
+                menu.getItem(0).setVisible(false);
+                menu.getItem(1).setVisible(false);
+            }
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -94,6 +103,10 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
 
             case R.id.editOption:{
                 Toast.makeText(getApplicationContext(), "Edit pressed", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.respondOption:{
+                //TODO tworzenie nowego czatu oraz przypisanie do tej listy zakupow id osoby ktora ja realizuje
                 break;
             }
         }

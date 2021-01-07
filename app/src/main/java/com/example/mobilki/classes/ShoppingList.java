@@ -10,16 +10,46 @@ public class ShoppingList implements Serializable {
     private String address;
     private String city;
     private String userID;
+    private String nameSurname;
+    private String status;
+    private String courierID;
     //private Location
 
 
-    public ShoppingList(String id, String shop, ArrayList<Item> items, String address, String city, String userID) {
+    public ShoppingList(String id, String shop, ArrayList<Item> items, String address, String city, String userID, String nameSurname, String status, String courierID) {
         this.id = id;
         this.shop = shop;
         this.items = items;
         this.address = address;
         this.city = city;
         this.userID = userID;
+        this.nameSurname = nameSurname;
+        this.status = status;
+        this.courierID = courierID;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setCourierID(String courierID) {
+        this.courierID = courierID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getCourierID() {
+        return courierID;
+    }
+
+    public void setNameSurname(String nameSurname) {
+        this.nameSurname = nameSurname;
+    }
+
+    public String getNameSurname() {
+        return nameSurname;
     }
 
     public ShoppingList() {

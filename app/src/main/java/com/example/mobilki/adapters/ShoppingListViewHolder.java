@@ -13,8 +13,9 @@ import com.example.mobilki.activities.ShoppingListDetailedActivity;
 import com.example.mobilki.classes.ShoppingList;
 
 public class ShoppingListViewHolder extends RecyclerView.ViewHolder{
-    private TextView shop;
-    private TextView itemAmount;
+    private TextView nameSurnameTextView;
+    private TextView quantityTextView;
+    private TextView addressTextView;
     private CardView cardView;
     private ShoppingList shL;
     View view;
@@ -22,19 +23,22 @@ public class ShoppingListViewHolder extends RecyclerView.ViewHolder{
     public ShoppingListViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView;
-        shop = itemView.findViewById(R.id.shopTextView);
-        itemAmount = itemView.findViewById(R.id.itemsAmount);
+        nameSurnameTextView = itemView.findViewById(R.id.nameSurnameView);
+        quantityTextView = itemView.findViewById(R.id.quantityTextView);
+        addressTextView = itemView.findViewById(R.id.addressTextView);
         cardView = itemView.findViewById(R.id.shoppingListItem);
     }
     public void onBind(ShoppingList sh){
         shL=sh;
-        shop.setText(sh.getShop().toString());
-        itemAmount.setText(Integer.toString(sh.getItems().size()));
+        nameSurnameTextView.setText(sh.getNameSurname().toString());
+        quantityTextView.setText(Integer.toString(sh.getItems().size()));
+        addressTextView.setText(sh.getAddress());
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), ShoppingListDetailedActivity.class);
                 intent.putExtra("sh",shL);
+                intent.putExtra("edit",false);
                 view.getContext().startActivity(intent);
             }
         });
