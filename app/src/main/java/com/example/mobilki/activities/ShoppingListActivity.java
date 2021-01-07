@@ -73,18 +73,6 @@ public class ShoppingListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
 
-
-
-        drawerLayout = findViewById(R.id.nav_drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        View headerView = navigationView.inflateHeaderView(R.layout.navigation_header);
-        circleImageView = headerView.findViewById(R.id.profile_image_nav);
-
         initFirebaseConnection();
 
         //inicjalizacja komponentow widoku
@@ -201,9 +189,9 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
     }
 
-
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+    private void setNavImage() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -222,9 +210,8 @@ public class ShoppingListActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-        setInitData();
-        sh = new ArrayList<>();
 
     private void initViews() {
         drawerLayout = findViewById(R.id.nav_drawer_layout);
@@ -234,6 +221,10 @@ public class ShoppingListActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
         navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.inflateHeaderView(R.layout.navigation_header);
+        circleImageView = headerView.findViewById(R.id.profile_image_nav);
+
+        setNavImage();
 
         recyclerView = findViewById(R.id.shoppingListsRecyclerView);
 
@@ -302,23 +293,26 @@ public class ShoppingListActivity extends AppCompatActivity {
         items.add(new Item("Wolowina", (float) 3.5,"kg"));
         items.add(new Item("Kurczak", (float) 0.5,"kg"));
         items.add(new Item("Buraczki",5,"szt"));
-        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz"));
-        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz"));
+        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz",firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Lidl",items,"Wolczanska 5","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Auchan",items,"Politechniki 53","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Zabka",items,"Piotrkowska 42","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Biedronka",items,"Pilsudskiego 6","Lodz", firebaseUser.getUid()));
+        shoppingLists.add(new ShoppingList("asdj", "Stokrotka",items,"Sarnia 9","Lodz", firebaseUser.getUid()));
     }
 
     private void setUserStatus(String status) {
