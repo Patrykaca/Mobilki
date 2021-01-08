@@ -95,7 +95,7 @@ public class MyShLActivity extends AppCompatActivity {
 
     private void initView() {
         recyclerView = findViewById(R.id.myShLRecyclerView);
-        adapter = new MyShoppingListAdapter(this,lists);
+        adapter = new MyShoppingListAdapter(this,lists,false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

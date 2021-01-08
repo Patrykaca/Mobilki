@@ -36,10 +36,13 @@ public class ShoppingListViewHolder extends RecyclerView.ViewHolder{
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(), ShoppingListDetailedActivity.class);
-                intent.putExtra("sh",shL);
-                intent.putExtra("edit",false);
-                view.getContext().startActivity(intent);
+                //TODO przekierowanie do aktywnosci w ktorej mozna zmieniac status ogloszenia, zrezygnowac z realizacji
+                    Intent intent = new Intent(view.getContext(), ShoppingListDetailedActivity.class);
+                    intent.putExtra("sh",shL);
+                    intent.putExtra("edit",false);
+                    intent.putExtra("active",false);
+                    view.getContext().startActivity(intent);
+
             }
         });
     }

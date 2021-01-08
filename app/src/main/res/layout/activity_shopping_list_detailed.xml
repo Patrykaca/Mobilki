@@ -27,4 +27,21 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"/>
 
+    <TextView
+        android:id="@+id/statusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/updateStatusButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/update_status" />
+    <Button
+        android:id="@+id/giveUpButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/give_up"/>
+
 </LinearLayout>

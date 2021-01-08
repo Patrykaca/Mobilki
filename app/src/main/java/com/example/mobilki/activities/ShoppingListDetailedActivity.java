@@ -5,26 +5,35 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobilki.R;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ShoppingListDetailedActivity extends AppCompatActivity {
     private TextView cityTextView;
     private TextView addressTextView;
     private TextView itemsTextView;
     private TextView shopTextView;
+    private TextView statusTextView;
+
+    private Button giveUpButton, updateStatusButton;
 
     private ShoppingList sh;
 
@@ -32,38 +41,122 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
+    private String newStatus = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list_detailed);
 
+        sh = null;
+
+        initViews();
+
+        //obsluga zaladowania widoku w przypadkach jesli nie zostaly do aktywnosci przeslane poprawnie parametry
         if(getIntent().getExtras() != null){
-            sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
+            try {
+                sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
 
-            cityTextView = findViewById(R.id.cityTextView);
-            addressTextView = findViewById(R.id.addressTextView);
-            itemsTextView = findViewById(R.id.itemsTextView);
-            shopTextView = findViewById(R.id.shopTextView);
+                //nawiazanie polaczenia z firebase
+                initFirebaseConnection();
 
-            cityTextView.setText(sh.getCity().toString());
-            addressTextView.setText(sh.getAddress().toString());
-            shopTextView.setText(sh.getShop().toString());
-            List<Item> items = sh.getItems();
-            StringBuilder builder = new StringBuilder();
-            for(Item i : items){
-                builder.append(i.getName());
-                builder.append(" ");
-                builder.append(i.getAmount());
-                builder.append(" ");
-                builder.append(i.getMeasurement());
-                builder.append("\n");
+                    cityTextView.setText(sh.getCity().toString());
+                    addressTextView.setText(sh.getAddress().toString());
+                    shopTextView.setText(sh.getShop().toString());
+                    statusTextView.setText(sh.getStatus());
+
+                    try {
+                        boolean active = getIntent().getExtras().getBoolean("active");
+                        if(active){
+                            updateStatusButton.setVisibility(View.VISIBLE);
+                            giveUpButton.setVisibility(View.VISIBLE);
+
+                            updateStatusButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getApplicationContext(),"Update status pressed",Toast.LENGTH_SHORT).show();
+                                    HashMap hashMap = new HashMap();
+                                    if(sh.getStatus().equals("accepted")){
+                                        hashMap.put("status","bought");
+                                        newStatus = "bought";
+                                    }else if(sh.getStatus().equals("bought")){
+                                        hashMap.put("status","delievered");
+                                        newStatus = "delievered";
+                                    }
+                                    databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                                        @Override
+                                        public void onSuccess(Object o) {
+                                            sh.setStatus(newStatus);
+                                            statusTextView.setText(newStatus);
+                                        }
+                                    });
+
+                                }
+                            });
+
+                            giveUpButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(getApplicationContext(),"Give up button pressed",Toast.LENGTH_SHORT).show();
+                                    HashMap hashMap = new HashMap();
+                                    hashMap.put("courierID", "");
+                                    hashMap.put("status","posted");
+                                    databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                                        @Override
+                                        public void onSuccess(Object o) {
+                                            Toast.makeText(getApplicationContext(),"You have given up", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(getApplicationContext(),MyResponsesActivity.class));
+                                            finish();
+                                        }
+                                    });
+
+                                }
+                            });
+                        }else{
+                            updateStatusButton.setVisibility(View.INVISIBLE);
+                            giveUpButton.setVisibility(View.INVISIBLE);
+                        }
+                    }catch (Exception e){
+                        Log.e("Error", "Error while getting active value from the bundle");
+                        updateStatusButton.setVisibility(View.INVISIBLE);
+                        giveUpButton.setVisibility(View.INVISIBLE);
+                    }
+
+                    List<Item> items = sh.getItems();
+                    StringBuilder builder = new StringBuilder();
+                    for(Item i : items){
+                        builder.append(i.getName());
+                        builder.append(" ");
+                        builder.append(i.getAmount());
+                        builder.append(" ");
+                        builder.append(i.getMeasurement());
+                        builder.append("\n");
+                    }
+                    itemsTextView.setText(builder.toString());
+
+
+            }catch (Exception e){
+                Log.e("Error", "Unable to get shopping list from bundle or render it to the view");
+                cityTextView.setText(R.string.none);
+                addressTextView.setText(R.string.none);
+                shopTextView.setText(R.string.none);
+                itemsTextView.setText(R.string.none);
+                updateStatusButton.setVisibility(View.INVISIBLE);
+                giveUpButton.setVisibility(View.INVISIBLE);
             }
-            itemsTextView.setText(builder.toString());
         }
 
-        initFirebaseConnection();
+    }
 
+    private void initViews() {
+        cityTextView = findViewById(R.id.cityTextView);
+        addressTextView = findViewById(R.id.addressTextView);
+        itemsTextView = findViewById(R.id.itemsTextView);
+        shopTextView = findViewById(R.id.shopTextView);
+        statusTextView = findViewById(R.id.statusTextView);
+
+        updateStatusButton = findViewById(R.id.updateStatusButton);
+        giveUpButton = findViewById(R.id.giveUpButton);
     }
 
     private void initFirebaseConnection() {
@@ -79,13 +172,24 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detailed_menu,menu);
         if(getIntent().getExtras()!=null){
-            if(getIntent().getExtras().getBoolean("edit")){
-                menu.getItem(2).setVisible(false);
-            }
-            else{
+            try {
+                boolean edit = getIntent().getExtras().getBoolean("edit");
+                if(edit){
+                    menu.getItem(3).setVisible(false);
+                }
+                else{
+                    menu.getItem(0).setVisible(false);
+                    menu.getItem(1).setVisible(false);
+                    menu.getItem(2).setVisible(false);
+                }
+            }catch (Exception e){
+                Log.e("Error", "Error while getting edit boolean variable");
                 menu.getItem(0).setVisible(false);
                 menu.getItem(1).setVisible(false);
+                menu.getItem(2).setVisible(false);
+                menu.getItem(3).setVisible(false);
             }
+
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -94,23 +198,49 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.deleteOption:{
-                databaseReference.removeValue();
-                Toast.makeText(getApplicationContext(), "Delete pressed", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(),ShoppingListActivity.class));
-                finish();
+                Toast.makeText(getApplicationContext(), "Shopping list deleted", Toast.LENGTH_SHORT).show();
+                if(sh!=null){
+                    databaseReference.removeValue();
+                    startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
+                    finish();
+                }
+
                 break;
             }
 
             case R.id.editOption:{
                 Toast.makeText(getApplicationContext(), "Edit pressed", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this, AddShoppingListActivity.class);
-                intent.putExtra("sh",sh);
-                startActivity(intent);
+                if(sh!=null){
+                    Intent intent = new Intent(this, AddShoppingListActivity.class);
+                    intent.putExtra("sh",sh);
+                    startActivity(intent);
+                }
                 break;
             }
             case R.id.respondOption:{
-                //TODO tworzenie nowego czatu oraz przypisanie do tej listy zakupow id osoby ktora ja realizuje
+                if(sh!=null){
+                    HashMap hashMap = new HashMap();
+                    hashMap.put("courierID", firebaseUser.getUid());
+                    hashMap.put("status", "accepted");
+                    databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                        @Override
+                        public void onSuccess(Object o) {
+                            Toast.makeText(getApplicationContext(),"Challange is taken!", Toast.LENGTH_SHORT).show();
+                            //TODO tworzenie nowego czatu oraz przypisanie do tej listy zakupow id osoby ktora ja realizuje
+                            finish();
+                        }
+                    });
+                }
                 break;
+            }
+            case R.id.doneOption:{
+                if(sh!=null){
+                    //TODO dialogowe okno z ocenianiem dostawcy
+                    DatabaseReference newDatabaseRef = firebaseDatabase.getReference().child("Advertisements");
+                    databaseReference.removeValue();
+                    startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
+                    finish();
+                }
             }
         }
         return super.onOptionsItemSelected(item);
