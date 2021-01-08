@@ -228,6 +228,8 @@ public class ShoppingListActivity extends AppCompatActivity {
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         actionBarDrawerToggle.syncState();
 
         navigationView = findViewById(R.id.nav_view);

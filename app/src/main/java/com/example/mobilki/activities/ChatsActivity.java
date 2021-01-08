@@ -36,7 +36,8 @@ public class ChatsActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
 
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), 0);
 
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
@@ -52,7 +53,12 @@ public class ChatsActivity extends AppCompatActivity {
         viewPager.setCurrentItem(position);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
