@@ -65,6 +65,9 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                     shopTextView.setText(sh.getShop().toString());
                     statusTextView.setText(sh.getStatus());
 
+                    //obsluga oraz widocznosc przyciskow do zmiany statusu albo rezygnacji w zaleznosci czy to
+                    // ogloszenie na ktore biezacy uzytkownik odpowiedzial czy to po prostu informacje o dowolnym
+                    // innym ogloszeniu
                     try {
                         boolean active = getIntent().getExtras().getBoolean("active");
                         if(active){
@@ -168,6 +171,8 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
         databaseReference.keepSynced(true);
     }
 
+    //pozycje menu sa widoczne lub nie w zaleznosci od tego czy to jest wlasne ogloszenie czy cudze
+    //tak zeby mozna bylo edytowac lub usuwac tylko swoje ogloszenia albo odpowiedziec na obce
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detailed_menu,menu);
@@ -197,6 +202,7 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
+            //usuwanie ogloszenia
             case R.id.deleteOption:{
                 Toast.makeText(getApplicationContext(), "Shopping list deleted", Toast.LENGTH_SHORT).show();
                 if(sh!=null){
@@ -208,6 +214,7 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                 break;
             }
 
+            //edytowanie ogloszenia
             case R.id.editOption:{
                 Toast.makeText(getApplicationContext(), "Edit pressed", Toast.LENGTH_SHORT).show();
                 if(sh!=null){
@@ -217,6 +224,9 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                 }
                 break;
             }
+            //uzytkownik odpowiada na cudze ogloszenia, w ogloszeniu zmienia sie pole courierID na wartosc id
+            // biezaczego uzytkownika a status zmienia sie na accepted by osoba wstawiajaca cogloszenie
+            // widziala to w statusach swoich ogloszen
             case R.id.respondOption:{
                 if(sh!=null){
                     HashMap hashMap = new HashMap();
@@ -233,6 +243,7 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                 }
                 break;
             }
+            //usuwanie realizowanego ogloszenia oraz ocenianie dostawcy
             case R.id.doneOption:{
                 if(sh!=null){
                     //TODO dialogowe okno z ocenianiem dostawcy

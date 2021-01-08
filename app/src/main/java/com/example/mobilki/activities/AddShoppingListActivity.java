@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//tak na prawde dodawanie ogloszenia lub edycja istniejacego ogloszenia
 public class AddShoppingListActivity extends AppCompatActivity {
 
     private EditText shopEditText;
@@ -224,6 +225,7 @@ public class AddShoppingListActivity extends AppCompatActivity {
         itemsRecyclerView.setAdapter(recyclerAdapter);
         itemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //jesli to jednak widok edycji ....
         if(getIntent().getExtras() != null){
             sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
             Toast.makeText(this,sh.getAddress(),Toast.LENGTH_SHORT).show();
