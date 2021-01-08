@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobilki.LoginActivity;
@@ -24,6 +26,7 @@ import com.example.mobilki.User;
 import com.example.mobilki.adapters.ShoppingListAdapter;
 import com.example.mobilki.classes.Item;
 import com.example.mobilki.classes.ShoppingList;
+import com.example.mobilki.fragments.ProfileFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,6 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -155,7 +159,8 @@ public class ShoppingListActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id){
                     case R.id.my_profile:{
-                        Intent intent = new Intent(getApplicationContext(),MyProfileActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ChatsActivity.class);
+                        intent.putExtra("key", 2);
                         startActivity(intent);
                         break;
                     }

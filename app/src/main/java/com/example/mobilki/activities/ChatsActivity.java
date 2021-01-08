@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.mobilki.R;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 
 public class ChatsActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,12 @@ public class ChatsActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
 
         viewPager.setAdapter(viewPagerAdapter);
+        int position = 0;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            position = extras.getInt("key");
+        }
+        viewPager.setCurrentItem(position);
         tabLayout.setupWithViewPager(viewPager);
 
 
