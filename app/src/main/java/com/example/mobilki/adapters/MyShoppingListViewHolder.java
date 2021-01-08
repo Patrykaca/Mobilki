@@ -36,7 +36,11 @@ public class MyShoppingListViewHolder extends RecyclerView.ViewHolder {
             public void onClick(View v) {
                 Intent intent = new Intent(view.getContext(), ShoppingListDetailedActivity.class);
                 intent.putExtra("sh", shoppingList);
-                intent.putExtra("edit",true);
+                if(active){
+                    intent.putExtra("edit",false);
+                }else{
+                    intent.putExtra("edit",true);
+                }
                 intent.putExtra("active", active);
                 view.getContext().startActivity(intent);
             }

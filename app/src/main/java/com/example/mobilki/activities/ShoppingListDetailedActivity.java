@@ -229,17 +229,23 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
             // widziala to w statusach swoich ogloszen
             case R.id.respondOption:{
                 if(sh!=null){
-                    HashMap hashMap = new HashMap();
-                    hashMap.put("courierID", firebaseUser.getUid());
-                    hashMap.put("status", "accepted");
-                    databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
-                        @Override
-                        public void onSuccess(Object o) {
-                            Toast.makeText(getApplicationContext(),"Challange is taken!", Toast.LENGTH_SHORT).show();
-                            //TODO tworzenie nowego czatu oraz przypisanie do tej listy zakupow id osoby ktora ja realizuje
-                            finish();
-                        }
-                    });
+                    if(sh.getCourierID().isEmpty()){
+                        HashMap hashMap = new HashMap();
+                        hashMap.put("courierID", firebaseUser.getUid());
+                        hashMap.put("status", "accepted");
+                        databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                Toast.makeText(getApplicationContext(),"Challange is taken!", Toast.LENGTH_SHORT).show();
+                                //TODO tworzenie nowego czatu lub przekierowanie oraz przypisanie do tej listy zakupow id osoby ktora ja realizuje
+                                finish();
+                            }
+                        });
+                    }
+
+                    //TODO przekierowanie do czatu oraz przypisanie do tej listy zakupow id osoby ktora ja realizuje
+
+
                 }
                 break;
             }
