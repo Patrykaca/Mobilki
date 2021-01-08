@@ -11,7 +11,13 @@ import android.widget.TextView;
 
 import com.example.mobilki.HomeActivity;
 import com.example.mobilki.R;
+import com.example.mobilki.StartActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class WelcomeScreenActivity extends AppCompatActivity {
@@ -34,7 +40,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
         startUsing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntend = new Intent(getApplicationContext(), HomeActivity.class);
+                Intent startIntend = new Intent(getApplicationContext(), StartActivity.class);
                 startActivity(startIntend);
             }
         });
