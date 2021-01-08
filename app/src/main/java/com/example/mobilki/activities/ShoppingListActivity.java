@@ -95,7 +95,7 @@ public class ShoppingListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 ShoppingList newShL = snapshot.getValue(ShoppingList.class);
-                if(!firebaseUser.getUid().equals(newShL.getUserID())){
+                if(!firebaseUser.getUid().equals(newShL.getUserID()) && newShL.getCourierID().isEmpty()){
                     shoppingLists.add(newShL);
                     adapter.notifyDataSetChanged();
                 }

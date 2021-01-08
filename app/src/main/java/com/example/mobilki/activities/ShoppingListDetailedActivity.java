@@ -232,13 +232,14 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
             // widziala to w statusach swoich ogloszen
             case R.id.respondOption:{
                 if(sh!=null){
-                    HashMap hashMap = new HashMap();
-                    hashMap.put("courierID", firebaseUser.getUid());
-                    hashMap.put("status", "accepted");
-                    databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
-                        @Override
-                        public void onSuccess(Object o) {
-                            Toast.makeText(getApplicationContext(),"Challenge is taken!", Toast.LENGTH_SHORT).show();
+                    if(sh.getCourierID().isEmpty()){
+                        HashMap hashMap = new HashMap();
+                        hashMap.put("courierID", firebaseUser.getUid());
+                        hashMap.put("status", "accepted");
+                        databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Object o) {
+                               Toast.makeText(getApplicationContext(),"Challenge is taken!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("userid", sh.getUserID());
@@ -246,8 +247,10 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
                             finish();
-                        }
-                    });
+                            }
+                        });
+                    }
+
                 }
                 break;
             }
