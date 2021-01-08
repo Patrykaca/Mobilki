@@ -70,6 +70,10 @@
     <string name="items">Items:</string>
     <string name="status">status:</string>
     <string name="respond">Respond</string>
+    <string name="update_status">Update status</string>
+    <string name="give_up">Give up</string>
+    <string name="none">None</string>
+    <string name="done">Done</string>
 
 
 </resources>

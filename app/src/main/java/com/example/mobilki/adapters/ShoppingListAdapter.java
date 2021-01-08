@@ -18,6 +18,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter<ShoppingListViewHo
 
     private LayoutInflater inflater;
     private List<ShoppingList> lists;
+
     //private List<ShoppingList> fulllists;
 
     public ShoppingListAdapter(Context context, List<ShoppingList> list) {

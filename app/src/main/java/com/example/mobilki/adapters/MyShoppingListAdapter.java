@@ -17,10 +17,12 @@ public class MyShoppingListAdapter extends RecyclerView.Adapter<MyShoppingListVi
 
     private LayoutInflater inflater;
     private List<ShoppingList> lists;
+    private boolean active;
 
-    public MyShoppingListAdapter(Context context, List<ShoppingList> lists) {
+    public MyShoppingListAdapter(Context context, List<ShoppingList> lists, boolean active) {
         this.lists = lists;
         this.inflater = LayoutInflater.from(context);
+        this.active = active;
     }
 
     public void setLists(List<ShoppingList> lists) {
@@ -36,7 +38,7 @@ public class MyShoppingListAdapter extends RecyclerView.Adapter<MyShoppingListVi
 
     @Override
     public void onBindViewHolder(@NonNull MyShoppingListViewHolder holder, int position) {
-        holder.onBind(lists.get(position));
+        holder.onBind(lists.get(position), active);
 
     }
 

@@ -27,7 +27,7 @@ public class MyShoppingListViewHolder extends RecyclerView.ViewHolder {
         cardView = view.findViewById(R.id.my_sh_l_item_card);
     }
 
-    public void onBind(final ShoppingList shoppingList) {
+    public void onBind(final ShoppingList shoppingList, final boolean active) {
         statusTextView.setText(shoppingList.getStatus());
         addressTextView.setText(shoppingList.getAddress());
         quantityTextView.setText(Integer.toString(shoppingList.getItems().size()));
@@ -37,6 +37,7 @@ public class MyShoppingListViewHolder extends RecyclerView.ViewHolder {
                 Intent intent = new Intent(view.getContext(), ShoppingListDetailedActivity.class);
                 intent.putExtra("sh", shoppingList);
                 intent.putExtra("edit",true);
+                intent.putExtra("active", active);
                 view.getContext().startActivity(intent);
             }
         });

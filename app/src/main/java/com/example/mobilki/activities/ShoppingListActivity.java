@@ -147,6 +147,7 @@ public class ShoppingListActivity extends AppCompatActivity {
         });
     }
 
+    //obsluga klikniecia opcji nawigacji
     private void setNavigationListener() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
