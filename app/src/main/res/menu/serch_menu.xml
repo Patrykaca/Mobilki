@@ -7,9 +7,5 @@
         android:icon="@drawable/ic_baseline_search_24"
         app:showAsAction="ifRoom"
         app:actionViewClass="android.widget.SearchView" />
-    <item
-        android:id="@+id/seatingsOption"
-        android:title="@string/Settings"
-        android:icon="@drawable/ic_baseline_settings_24"
-        app:showAsAction="ifRoom"/>
+
 </menu>
