@@ -50,6 +50,7 @@ public class MyResponsesActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        lists.clear();
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
