@@ -148,18 +148,22 @@ public class ChatsFragment extends Fragment {
                         }
                     }
                 }
-
-                List<String> newRec = recId.stream().distinct().collect(Collectors.toList());
-                List<User> newUsers = new ArrayList<>();
-                for (User user : users) {
-                    for (int i = 0; i < newRec.size(); i++) {
-                        if (user.getId().equals(newRec.get(i))) {
-                            newUsers.add(user);
+                if (!recId.isEmpty()) {
+                    List<String> newRec = recId.stream().distinct().collect(Collectors.toList());
+                    List<User> newUsers = new ArrayList<>();
+                    for (User user : users) {
+                        for (int i = 0; i < newRec.size(); i++) {
+                            if (user.getId().equals(newRec.get(i))) {
+                                newUsers.add(user);
+                            }
                         }
                     }
+                    userAdapter = new UserAdapter(getContext(), newUsers, true);
+                    recyclerView.setAdapter(userAdapter);
+                } else {
+                    userAdapter = new UserAdapter(getContext(), users, true);
+                    recyclerView.setAdapter(userAdapter);
                 }
-                userAdapter = new UserAdapter(getContext(), newUsers, true);
-                recyclerView.setAdapter(userAdapter);
 
             }
 
