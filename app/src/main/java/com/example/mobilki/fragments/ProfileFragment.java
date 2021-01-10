@@ -1,5 +1,6 @@
 package com.example.mobilki.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -48,6 +49,8 @@ public class ProfileFragment extends Fragment {
     CircleImageView image_profile;
     TextView username;
     TextView userLastname;
+    TextView rate;
+    TextView rateCount;
 
     DatabaseReference reference;
     FirebaseUser firebaseUser;
@@ -67,6 +70,8 @@ public class ProfileFragment extends Fragment {
 
         username = view.findViewById(R.id.username);
         userLastname = view.findViewById(R.id.userLastname);
+        rate = view.findViewById(R.id.rate);
+        rateCount = view.findViewById(R.id.rateCount);
 
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
@@ -74,11 +79,14 @@ public class ProfileFragment extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                username.setText(user.getFirstName());
-                userLastname.setText(user.getLastName());
+                username.setText(getResources().getString(R.string.profile_name) + " " + user.getFirstName());
+                userLastname.setText(getResources().getString(R.string.profile_lastname) + " " + user.getLastName());
+                rate.setText(getResources().getString(R.string.profile_rate) + " " + String.valueOf(user.getRate()));
+                rateCount.setText(getResources().getString(R.string.profile_rates_number) + " " + String.valueOf(user.getRateCount()));
                 if (Objects.equals(user.getImageUrl(), "default")) {
                     image_profile.setImageResource(R.drawable.profile_icon);
                 } else {

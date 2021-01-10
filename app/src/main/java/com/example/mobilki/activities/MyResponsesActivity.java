@@ -37,6 +37,8 @@ public class MyResponsesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_responses);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         initFirebaseConnection();
 
@@ -46,6 +48,13 @@ public class MyResponsesActivity extends AppCompatActivity {
         responsesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
     @Override
     protected void onStart() {

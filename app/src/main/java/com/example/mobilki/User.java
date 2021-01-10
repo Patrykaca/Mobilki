@@ -10,9 +10,11 @@ public class User {
     private String password;
     private String imageUrl;
     private String status;
+    private Double rate;
+    private int rateCount;
 
     public User(String id, String firstName, String lastName, String email, String age, String password, String imageUrl,
-                String status) {
+                String status, Double rate, int rateCount) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,6 +23,8 @@ public class User {
         this.password = password;
         this.imageUrl = imageUrl;
         this.status = status;
+        this.rate = rate;
+        this.rateCount = rateCount;
     }
 
     public User() {
@@ -88,5 +92,21 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
+    }
+
+    public int getRateCount() {
+        return rateCount;
+    }
+
+    public void setRateCount(int rateCount) {
+        this.rateCount = rateCount;
     }
 }

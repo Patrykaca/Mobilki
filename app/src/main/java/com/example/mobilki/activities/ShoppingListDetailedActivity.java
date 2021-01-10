@@ -257,11 +257,16 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
             //usuwanie realizowanego ogloszenia oraz ocenianie dostawcy
             case R.id.doneOption:{
                 if(sh!=null){
-                    //TODO dialogowe okno z ocenianiem dostawcy
-                    DatabaseReference newDatabaseRef = firebaseDatabase.getReference().child("Advertisements");
                     databaseReference.removeValue();
-                    startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
-                    finish();
+                    if(!Objects.equals(sh.getCourierID(), "")) {
+                        Intent intent = new Intent(getApplicationContext(), RateActivity.class);
+                        intent.putExtra("courierId", sh.getCourierID());
+                        startActivity(intent);
+                    }
+                    else {
+                        startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
+                        finish();
+                    }
                 }
             }
         }

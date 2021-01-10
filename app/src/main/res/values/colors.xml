@@ -18,4 +18,5 @@
 
     <color name="statusOnline">#05df29</color>
     <color name="statusOffline">#D80606</color>
+    <color name="rateBar">#ffff1c</color>
 </resources>

@@ -73,6 +73,13 @@
     <string name="give_up">Give up</string>
     <string name="none">None</string>
     <string name="done">Done</string>
+    <string name="rateBtn">Rate</string>
+    <string name="skipBtn">Skip</string>
+    <string name="rateTitle">How helpful was the user:</string>
+    <string name="profile_name">Firstname:</string>
+    <string name="profile_lastname">Lastname:</string>
+    <string name="profile_rate">Rate:</string>
+    <string name="profile_rates_number">Rates number:</string>
 
 
 </resources>

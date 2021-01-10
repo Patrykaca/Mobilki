@@ -88,8 +88,9 @@ public class ShoppingListActivity extends AppCompatActivity {
         //nasluchiwanie przycisku dodaj liste zakupow
         initAddShoppingListButtonListener();
 
-
     }
+
+
 
     @Override
     protected void onStart() {

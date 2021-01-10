@@ -38,6 +38,8 @@ public class MyShLActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_sh_l);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         lists = new ArrayList<>();
 
@@ -46,6 +48,12 @@ public class MyShLActivity extends AppCompatActivity {
 
         //inicjowanie widoku
         initView();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override

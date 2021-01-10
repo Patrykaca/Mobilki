@@ -1,11 +1,7 @@
 package com.example.mobilki.register;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.media.MediaCodec;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -15,10 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.mobilki.LoginActivity;
 import com.example.mobilki.R;
 import com.example.mobilki.User;
-import com.example.mobilki.activities.ShoppingListActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,11 +28,11 @@ import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private FirebaseAuth mAuth;
-    private TextView firstNameText, lastNameText, ageText, passwordText, emailText;
-    private String imageUrl = "default";
     Button loginBtn, registerBtn;
     ProgressBar progressBar;
+    private FirebaseAuth mAuth;
+    private TextView firstNameText, lastNameText, ageText, passwordText, emailText;
+    private final String imageUrl = "default";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +43,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         try {  //hide title bar in register screen
             Objects.requireNonNull(this.getSupportActionBar()).hide();
-        }
-        catch (NullPointerException ignored) {
+        } catch (NullPointerException ignored) {
 
         }
 
-        registerBtn = (Button) findViewById(R.id.registerBtn2);
+        registerBtn = findViewById(R.id.registerBtn2);
         loginBtn = findViewById(R.id.loginBtn2);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.progressBar);
         registerBtn.setOnClickListener(this);
         loginBtn.setOnClickListener(this);
 
@@ -79,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private boolean validateFields(String firstName, String lastName, String age, String password,
-                                String email) {
+                                   String email) {
         if (firstName.isEmpty()) {
             firstNameText.setError("Required!");
             firstNameText.requestFocus();
@@ -106,13 +103,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return false;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailText.setError("Invalid email!");
             emailText.requestFocus();
             return false;
         }
 
-        if(password.length() < 6) {
+        if (password.length() < 6) {
             passwordText.setError("Password must be at least 6 characters!");
             passwordText.requestFocus();
             return false;
@@ -127,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         final String age = ageText.getText().toString().trim();
         final String password = passwordText.getText().toString().trim();
 
-        if(!this.validateFields(firstName, lastName, age, password, email)) {
+        if (!this.validateFields(firstName, lastName, age, password, email)) {
             return;
         }
 
@@ -135,11 +132,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             FirebaseUser fUser = mAuth.getCurrentUser();
 
-                            User user = new User(fUser.getUid(),firstName, lastName, email, age, password, imageUrl, "offline");
-
+                            User user = new User(fUser.getUid(), firstName, lastName, email, age, password, imageUrl, "offline", 0.0, 0);
 
 
                             FirebaseDatabase.getInstance().getReference("Users")
@@ -147,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()) {
+                                    if (task.isSuccessful()) {
                                         Toast.makeText(RegisterActivity.this, "Signed up successfully!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                         //wchodzi w aktywnosc z listami zakupow jesli udalo sie zarejestrowac
