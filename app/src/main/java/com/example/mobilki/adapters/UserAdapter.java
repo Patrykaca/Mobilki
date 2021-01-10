@@ -66,17 +66,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             holder.last_msg.setVisibility(View.GONE);
         }
 
-        if(ischat) {
-            if(Objects.equals(user.getStatus(), "online")) {
+        if (ischat) {
+            if (Objects.equals(user.getStatus(), "online")) {
                 holder.img_online.setVisibility(View.VISIBLE);
                 holder.img_offline.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 holder.img_online.setVisibility(View.GONE);
                 holder.img_offline.setVisibility(View.VISIBLE);
             }
-        }
-        else {
+        } else {
             holder.img_online.setVisibility(View.GONE);
             holder.img_offline.setVisibility(View.GONE);
         }
@@ -130,7 +128,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                     Chat chat = snapshot1.getValue(Chat.class);
 
                     if (chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(userid) ||
-                        chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid()) ) {
+                            chat.getReceiver().equals(userid) && chat.getSender().equals(firebaseUser.getUid())) {
                         theLastMessage = chat.getMessage();
                     }
                 }

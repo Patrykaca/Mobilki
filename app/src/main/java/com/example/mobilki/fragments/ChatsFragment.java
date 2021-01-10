@@ -26,8 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ChatsFragment extends Fragment {
 
@@ -44,6 +46,9 @@ public class ChatsFragment extends Fragment {
     private List<String> usersId;
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
+    private List<User> newUsers;
+    private HashMap<String, Object> msgId;
+    private List<String> recId = new ArrayList<>();
 
 
 
@@ -77,6 +82,7 @@ public class ChatsFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
         usersId = new ArrayList<>();
+        msgId = new HashMap<>();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -91,6 +97,9 @@ public class ChatsFragment extends Fragment {
 
                     if(Objects.equals(firebaseUser.getUid(), _chat.getReceiver())) {
                         usersId.add(_chat.getSender());
+                        if (!_chat.isIsseen()) {
+                            recId.add(_chat.getSender());
+                        }
                     }
                 }
 
@@ -139,7 +148,17 @@ public class ChatsFragment extends Fragment {
                         }
                     }
                 }
-                userAdapter = new UserAdapter(getContext(), users, true);
+
+                List<String> newRec = recId.stream().distinct().collect(Collectors.toList());
+                List<User> newUsers = new ArrayList<>();
+                for (User user : users) {
+                    for (int i = 0; i < newRec.size(); i++) {
+                        if (user.getId().equals(newRec.get(i))) {
+                            newUsers.add(user);
+                        }
+                    }
+                }
+                userAdapter = new UserAdapter(getContext(), newUsers, true);
                 recyclerView.setAdapter(userAdapter);
 
             }
