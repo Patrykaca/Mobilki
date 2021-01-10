@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ChatsActivity">
+    tools:context=".activities.ChatsActivity"
+    android:orientation="horizontal">
 
 
     <androidx.viewpager.widget.ViewPager
@@ -22,6 +23,9 @@
             android:layout_height="wrap_content" />
 
     </androidx.viewpager.widget.ViewPager>
+
+
+
 
 
 </LinearLayout>

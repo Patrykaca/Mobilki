@@ -15,6 +15,7 @@ import com.example.mobilki.R;
 import com.example.mobilki.User;
 import com.example.mobilki.adapters.UserAdapter;
 import com.example.mobilki.classes.Chat;
+import com.example.mobilki.notifications.Token;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +102,7 @@ public class ChatsFragment extends Fragment {
 
             }
         });
-
+        updateToken(FirebaseInstanceId.getInstance().getToken());
         return view;
     }
 
@@ -147,6 +149,13 @@ public class ChatsFragment extends Fragment {
 
             }
         });
-
     }
+
+    private void updateToken(String token) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference.child(firebaseUser.getUid()).setValue(token1);
+    }
+
 }
