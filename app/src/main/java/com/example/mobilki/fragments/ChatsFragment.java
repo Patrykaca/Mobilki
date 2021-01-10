@@ -149,7 +149,7 @@ public class ChatsFragment extends Fragment {
                     }
                 }
                 if (!recId.isEmpty()) {
-                    List<String> newRec = recId.stream().distinct().collect(Collectors.toList());
+                    List<Object> newRec = recId.stream().distinct().collect(Collectors.toList());
                     List<User> newUsers = new ArrayList<>();
                     for (User user : users) {
                         for (int i = 0; i < newRec.size(); i++) {
@@ -158,13 +158,25 @@ public class ChatsFragment extends Fragment {
                             }
                         }
                     }
+
+                    boolean flag = false;
+                    for (int i = 0; i < users.size(); i++) {
+                        for (int j = 0; j < newUsers.size(); j++) {
+                            if (users.get(i).getId().equals(newUsers.get(j).getId())) {
+                                flag = true;
+                                break;
+                            }
+                            if (flag) {
+                                newUsers.add(users.get(i));
+                            }
+                        }
+                    }
                     userAdapter = new UserAdapter(getContext(), newUsers, true);
-                    recyclerView.setAdapter(userAdapter);
                 } else {
                     userAdapter = new UserAdapter(getContext(), users, true);
-                    recyclerView.setAdapter(userAdapter);
                 }
 
+                recyclerView.setAdapter(userAdapter);
             }
 
             @Override
