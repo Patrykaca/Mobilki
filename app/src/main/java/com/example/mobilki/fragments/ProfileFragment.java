@@ -60,6 +60,7 @@ public class ProfileFragment extends Fragment {
     private Uri imageUri;
     private StorageTask uploadTask;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,10 +84,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                username.setText(getResources().getString(R.string.profile_name) + " " + user.getFirstName());
-                userLastname.setText(getResources().getString(R.string.profile_lastname) + " " + user.getLastName());
-                rate.setText(getResources().getString(R.string.profile_rate) + " " + String.valueOf(user.getRate()));
-                rateCount.setText(getResources().getString(R.string.profile_rates_number) + " " + String.valueOf(user.getRateCount()));
+
+
+                username.setText(user.getFirstName());
+                userLastname.setText(user.getLastName());
+                rate.setText(String.valueOf(user.getRate()));
+                rateCount.setText(String.valueOf(user.getRateCount()));
                 if (Objects.equals(user.getImageUrl(), "default")) {
                     image_profile.setImageResource(R.drawable.profile_icon);
                 } else {

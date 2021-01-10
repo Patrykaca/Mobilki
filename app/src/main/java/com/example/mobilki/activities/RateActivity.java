@@ -19,9 +19,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RateActivity extends AppCompatActivity {
 
@@ -29,6 +33,7 @@ public class RateActivity extends AppCompatActivity {
     Button skipBtn;
     Button rateBtn;
     TextView rateTitle;
+    CircleImageView circleImageView;
     String courierId;
     DatabaseReference databaseReference;
     double rate;
@@ -44,6 +49,7 @@ public class RateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rate);
         Intent intent = getIntent();
         courierId = intent.getExtras().getString("courierId");
+        circleImageView = findViewById(R.id.profile_image);
 
         ratingBar = findViewById(R.id.ratingBar);
         skipBtn = findViewById(R.id.skipBtn);
@@ -59,6 +65,11 @@ public class RateActivity extends AppCompatActivity {
                 rate = _user.getRate();
                 rateCount = _user.getRateCount();
                 rateTitle.setText(firstName + " " + lastName);
+                if (Objects.equals(_user.getImageUrl(), "default")) {
+                    circleImageView.setImageResource(R.drawable.profile_icon);
+                } else {
+                    Picasso.get().load(_user.getImageUrl()).into(circleImageView);
+                }
             }
 
             @Override

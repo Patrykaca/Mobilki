@@ -35,20 +35,27 @@
             android:id="@+id/rateTitleUser"
             android:layout_below="@+id/rateTitle"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="30dp"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:gravity="center" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/rateTitleUser"
+            android:id="@+id/profile_image"
+            android:layout_centerHorizontal="true" />
 
 
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rateTitle"
+            android:layout_below="@+id/profile_image"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="20dp"
             android:progressTint="@color/rateBar"
             android:numStars="5"
             android:stepSize=".25" />
@@ -60,10 +67,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/rateBtn"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="200dp"
+        android:layout_below="@+id/rel_rate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="50dp"
         android:text="@string/rateBtn"
         android:background="@color/btnColor"
         android:textColor="@color/colorWhite"
@@ -73,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/skipBtn"
-        android:layout_above="@+id/rateBtn"
+        android:layout_below="@+id/rateBtn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:text="@string/skipBtn"

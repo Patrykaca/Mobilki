@@ -52,7 +52,6 @@ public class ChatsActivity extends AppCompatActivity {
         }
         viewPager.setCurrentItem(position);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     @Override
