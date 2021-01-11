@@ -46,8 +46,6 @@ public class ChatsFragment extends Fragment {
     private List<String> usersId;
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
-    private List<User> newUsers;
-    private HashMap<String, Object> msgId;
     private List<String> recId = new ArrayList<>();
 
 
@@ -82,7 +80,7 @@ public class ChatsFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
         usersId = new ArrayList<>();
-        msgId = new HashMap<>();
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
