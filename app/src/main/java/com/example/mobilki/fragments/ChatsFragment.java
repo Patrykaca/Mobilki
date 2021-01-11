@@ -26,8 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ChatsFragment extends Fragment {
 
@@ -44,6 +46,7 @@ public class ChatsFragment extends Fragment {
     private List<String> usersId;
     FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
+    private List<String> recId = new ArrayList<>();
 
 
 
@@ -77,6 +80,7 @@ public class ChatsFragment extends Fragment {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         databaseReference = FirebaseDatabase.getInstance().getReference("Chats");
         usersId = new ArrayList<>();
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -91,6 +95,9 @@ public class ChatsFragment extends Fragment {
 
                     if(Objects.equals(firebaseUser.getUid(), _chat.getReceiver())) {
                         usersId.add(_chat.getSender());
+                        if (!_chat.isIsseen()) {
+                            recId.add(_chat.getSender());
+                        }
                     }
                 }
 
@@ -139,9 +146,35 @@ public class ChatsFragment extends Fragment {
                         }
                     }
                 }
-                userAdapter = new UserAdapter(getContext(), users, true);
-                recyclerView.setAdapter(userAdapter);
+                if (!recId.isEmpty()) {
+                    List<Object> newRec = recId.stream().distinct().collect(Collectors.toList());
+                    List<User> newUsers = new ArrayList<>();
+                    for (User user : users) {
+                        for (int i = 0; i < newRec.size(); i++) {
+                            if (user.getId().equals(newRec.get(i))) {
+                                newUsers.add(user);
+                            }
+                        }
+                    }
 
+                    boolean flag = false;
+                    for (int i = 0; i < users.size(); i++) {
+                        for (int j = 0; j < newUsers.size(); j++) {
+                            if (users.get(i).getId().equals(newUsers.get(j).getId())) {
+                                flag = true;
+                                break;
+                            }
+                            if (flag) {
+                                newUsers.add(users.get(i));
+                            }
+                        }
+                    }
+                    userAdapter = new UserAdapter(getContext(), newUsers, true);
+                } else {
+                    userAdapter = new UserAdapter(getContext(), users, true);
+                }
+
+                recyclerView.setAdapter(userAdapter);
             }
 
             @Override
