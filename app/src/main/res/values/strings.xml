@@ -80,6 +80,8 @@
     <string name="profile_lastname">Lastname:</string>
     <string name="profile_rate">Rate:</string>
     <string name="profile_rates_number">Rates number:</string>
+    <string name="all_posts">All posts</string>
+    <string name="shop_1">Shop:</string>
 
 
 </resources>

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.MovementMethod;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -138,7 +140,11 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                         builder.append(i.getMeasurement());
                         builder.append("\n");
                     }
+
                     itemsTextView.setText(builder.toString());
+
+                    itemsTextView.setMovementMethod(new ScrollingMovementMethod());
+
 
 
             }catch (Exception e){

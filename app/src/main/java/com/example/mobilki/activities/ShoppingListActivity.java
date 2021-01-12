@@ -180,12 +180,6 @@ public class ShoppingListActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     }
-                    case R.id.settings:{
-                        Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
-                        startActivity(intent);
-                        break;
-
-                    }
                     case R.id.log_out:{
                         setUserStatus("offline");
                         FirebaseAuth.getInstance().signOut();

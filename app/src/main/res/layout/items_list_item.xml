@@ -42,6 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:scaleX="0.5"
+                android:scaleY="0.7"
                 android:background="@drawable/ic_baseline_close_24"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
