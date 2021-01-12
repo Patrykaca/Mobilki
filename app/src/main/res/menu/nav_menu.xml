@@ -19,10 +19,6 @@
         android:title="@string/my_responses"
         />
     <item
-        android:id="@+id/settings"
-        android:title="@string/Settings"
-        />
-    <item
         android:id="@+id/log_out"
         android:title="@string/log_out"/>
 </menu>
