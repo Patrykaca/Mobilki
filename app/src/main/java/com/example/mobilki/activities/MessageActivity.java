@@ -73,6 +73,8 @@ public class MessageActivity extends AppCompatActivity {
 
     String userid;
 
+    View.OnClickListener goToProfileListener;
+
     boolean notify = false;
 
     @Override
@@ -87,6 +89,7 @@ public class MessageActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_message);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -147,6 +150,19 @@ public class MessageActivity extends AppCompatActivity {
                     Picasso.get().load(user.getImageUrl()).into(profile_image);
                 }
                 readMessages(firebaseUser.getUid(), user.getId(), user.getImageUrl());
+
+                goToProfileListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
+                    }
+                };
+
+                username.setOnClickListener(goToProfileListener);
+                profile_image.setOnClickListener(goToProfileListener);
+                userLastname.setOnClickListener(goToProfileListener);
             }
 
             @Override

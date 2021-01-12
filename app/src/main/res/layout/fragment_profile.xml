@@ -22,7 +22,7 @@
                 android:textSize="24sp"
                 android:layout_marginTop="40dp"
                 android:id="@+id/profile_text"
-                android:text="@string/profile"
+                android:text="Profile"
                 android:textStyle="bold"/>
 
             <de.hdodenhof.circleimageview.CircleImageView

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mobilki.R;
 import com.example.mobilki.User;
 import com.example.mobilki.activities.MessageActivity;
+import com.example.mobilki.activities.ProfileActivity;
 import com.example.mobilki.classes.Chat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,6 +86,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 Intent intent = new Intent(context, MessageActivity.class);
                 intent.putExtra("userid", user.getId());
                 context.startActivity(intent);
+            }
+        });
+        holder.profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(holder.itemView.getContext(), ProfileActivity.class);
+                intent.putExtra("user",user);
+                holder.itemView.getContext().startActivity(intent);
             }
         });
     }
