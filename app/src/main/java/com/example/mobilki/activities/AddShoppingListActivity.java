@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 //tak na prawde dodawanie ogloszenia lub edycja istniejacego ogloszenia
 public class AddShoppingListActivity extends AppCompatActivity {
@@ -68,6 +69,8 @@ public class AddShoppingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shopping_list);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         items = new ArrayList<>();
 
@@ -87,6 +90,12 @@ public class AddShoppingListActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
     private void initFirebaseConnection() {
         nameSurname = "";

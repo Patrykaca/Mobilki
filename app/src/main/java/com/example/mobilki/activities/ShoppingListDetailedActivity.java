@@ -84,14 +84,17 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                             updateStatusButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(getApplicationContext(),"Update status pressed",Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(),"Update status pressed",Toast.LENGTH_SHORT).show();
                                     HashMap hashMap = new HashMap();
                                     if(sh.getStatus().equals("accepted")){
                                         hashMap.put("status","bought");
                                         newStatus = "bought";
                                     }else if(sh.getStatus().equals("bought")){
-                                        hashMap.put("status","delievered");
-                                        newStatus = "delievered";
+                                        hashMap.put("status","delivered");
+                                        newStatus = "delivered";
+                                    } else if(sh.getStatus().equals("delivered")) {
+                                        hashMap.put("status","delivered");
+                                        newStatus = "delivered";
                                     }
                                     databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
                                         @Override

@@ -6,11 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.mobilki.R;
 import com.example.mobilki.adapters.MyShoppingListAdapter;
 import com.example.mobilki.classes.ShoppingList;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -20,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MyResponsesActivity extends AppCompatActivity {
 
@@ -91,6 +97,7 @@ public class MyResponsesActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void initFirebaseConnection() {
         firebaseAuth = FirebaseAuth.getInstance();

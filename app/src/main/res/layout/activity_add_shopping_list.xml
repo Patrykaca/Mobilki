@@ -4,17 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16sp"
     tools:context=".activities.AddShoppingListActivity"
     android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/info"
         android:orientation="vertical">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,20 +42,21 @@
                     android:hint="@string/city"
                     android:textSize="20sp"/>
             </LinearLayout>
-
-        </ScrollView>
-
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="2">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info"
+        android:layout_above="@+id/adding"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/items"
+        android:orientation="vertical">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,13 +69,16 @@
             </LinearLayout>
         </ScrollView>
 
+    </LinearLayout>
 
         <LinearLayout
             android:layout_gravity="bottom"
+            android:id="@+id/adding"
+            android:layout_above="@+id/buttons"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="4">
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
             <EditText
                 android:id="@+id/itemNameEditText"
                 android:layout_width="match_parent"
@@ -95,30 +102,43 @@
                 android:layout_gravity="bottom"
                 />
         </LinearLayout>
-    </LinearLayout>
 
 
 
     <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
         <Button
             android:id="@+id/addItemButton"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_marginStart="8sp"
+            android:background="@color/bar"
+            android:textColor="@color/colorWhite"
+            android:layout_marginEnd="8sp"
+            android:padding="8sp"
             android:text="@string/add_item"/>
 
 
         <Button
             android:id="@+id/addShLButton"
             android:text="@string/save"
-            android:layout_width="match_parent"
+            android:padding="8sp"
+            android:layout_marginStart="8sp"
+            android:layout_marginEnd="8sp"
+            android:layout_width="wrap_content"
+            android:background="@color/bar"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
-
+    </RelativeLayout>
 
 
 </LinearLayout>
