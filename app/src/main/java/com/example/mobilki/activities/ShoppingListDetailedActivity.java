@@ -52,6 +52,8 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list_detailed);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         sh = null;
 
@@ -131,14 +133,18 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                     }
 
                     List<Item> items = sh.getItems();
+                    int counter = 1;
                     StringBuilder builder = new StringBuilder();
                     for(Item i : items){
+                        builder.append(counter);
+                        builder.append(".  ");
                         builder.append(i.getName());
                         builder.append(" ");
                         builder.append(i.getAmount());
                         builder.append(" ");
                         builder.append(i.getMeasurement());
                         builder.append("\n");
+                        counter++;
                     }
 
                     itemsTextView.setText(builder.toString());
@@ -158,6 +164,12 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void initViews() {

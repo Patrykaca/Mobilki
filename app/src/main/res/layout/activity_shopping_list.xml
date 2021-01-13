@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGrey"
     android:orientation="vertical"
     >
 
@@ -24,6 +25,8 @@
             android:id="@+id/addShLButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/bar"
+            android:textColor="@color/colorWhite"
             android:text="@string/add_shop_list"
             android:textSize="15sp"
             android:textAlignment="center"
@@ -37,6 +40,6 @@
         android:fitsSystemWindows="true"
         android:id="@+id/nav_view"
         app:menu="@menu/nav_menu"
-       />
+        />
 
 </androidx.drawerlayout.widget.DrawerLayout>
