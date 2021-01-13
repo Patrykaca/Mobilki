@@ -28,7 +28,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:drawableLeft="@drawable/ic_action_login"
-        android:ems="10"
+        android:ems="15"
         android:hint="@string/login_hint"
         android:inputType="textPersonName" />
 
@@ -40,7 +40,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:drawableLeft="@drawable/ic_action_password"
-        android:ems="10"
+        android:ems="15"
         android:hint="@string/password_hint"
         android:inputType="textPassword"
         android:textSize="18sp" />
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lastNameText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:background="@color/btnColor"
         android:text="@string/btn_login"
         android:textColor="#FFFFFF"
