@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/my_sh_l_item_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5sp">
+        app:cardUseCompatPadding="true"
+        app:cardElevation="3dp"
+        app:cardCornerRadius="8dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8sp"
+            android:weightSum="8"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -26,41 +32,43 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
+                        android:paddingEnd="5sp"
                         android:text="@string/items"
-                        android:paddingEnd="5sp"/>
+                        android:textSize="20sp" />
+
                     <TextView
                         android:id="@+id/quantityTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="25sp"
+                        android:paddingBottom="20sp"
                         android:text="4"
-                        android:paddingBottom="20sp"/>
+                        android:textSize="25sp" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/addressTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="Address"/>
+                    android:text="Address"
+                    android:textSize="20sp" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="5"
                 android:orientation="horizontal"
                 android:layout_gravity="center">
                 <TextView
                     android:id="@+id/statusTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status"
+                    android:layout_alignParentEnd="true"
+                    android:text="accepted"
                     android:textSize="30sp"
                     />
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
