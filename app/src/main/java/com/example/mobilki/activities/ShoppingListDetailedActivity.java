@@ -270,9 +270,18 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                             finish();
                             }
                         });
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("userid", sh.getUserID());
+                        intent.putExtras(bundle);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
                     }
 
-                }
+
                 break;
             }
             //usuwanie realizowanego ogloszenia oraz ocenianie dostawcy
