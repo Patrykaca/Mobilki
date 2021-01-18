@@ -1,9 +1,12 @@
 package com.example.mobilki.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
@@ -72,6 +75,18 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                     shopTextView.setText(sh.getShop().toString());
                     statusTextView.setText(sh.getStatus());
 
+                    String status="";
+                    if(sh.getStatus().equals("accepted")){
+                        status = "Update status to bought";
+                    }else if(sh.getStatus().equals("bought")){
+                        status = "Update status to delivered";
+                    }
+                    updateStatusButton.setText(status);
+
+                    if(sh.getStatus().equals("delivered")){
+                        updateStatusButton.setVisibility(View.INVISIBLE);
+                    }
+
                     //obsluga oraz widocznosc przyciskow do zmiany statusu albo rezygnacji w zaleznosci czy to
                     // ogloszenie na ktore biezacy uzytkownik odpowiedzial czy to po prostu informacje o dowolnym
                     // innym ogloszeniu
@@ -84,25 +99,38 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                             updateStatusButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //Toast.makeText(getApplicationContext(),"Update status pressed",Toast.LENGTH_SHORT).show();
-                                    HashMap hashMap = new HashMap();
-                                    if(sh.getStatus().equals("accepted")){
-                                        hashMap.put("status","bought");
-                                        newStatus = "bought";
-                                    }else if(sh.getStatus().equals("bought")){
-                                        hashMap.put("status","delivered");
-                                        newStatus = "delivered";
-                                    } else if(sh.getStatus().equals("delivered")) {
-                                        hashMap.put("status","delivered");
-                                        newStatus = "delivered";
-                                    }
-                                    databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
-                                        @Override
-                                        public void onSuccess(Object o) {
-                                            sh.setStatus(newStatus);
-                                            statusTextView.setText(newStatus);
+                                    if(!sh.getStatus().equals("delivered")){
+                                        HashMap hashMap = new HashMap();
+                                        if(sh.getStatus().equals("accepted")){
+                                            hashMap.put("status","bought");
+                                            newStatus = "bought";
+                                        }else if(sh.getStatus().equals("bought")){
+                                            hashMap.put("status","delivered");
+                                            newStatus = "delivered";
                                         }
-                                    });
+                                        AlertDialog alertDialog = new AlertDialog.Builder(ShoppingListDetailedActivity.this).create();
+                                        alertDialog.setMessage("Are you sure you want to update status to " + hashMap.get("status") + "?");
+                                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", (dialog, which) -> {
+                                            databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                                                @Override
+                                                public void onSuccess(Object o) {
+                                                    sh.setStatus(newStatus);
+                                                    statusTextView.setText(newStatus);
+                                                }
+                                            });
+                                            dialog.dismiss();
+                                        });
+                                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        alertDialog.show();
+                                    }
+                                    else {
+                                        Toast.makeText(ShoppingListDetailedActivity.this, "Nothing to update", Toast.LENGTH_SHORT).show();
+                                    }
 
                                 }
                             });
@@ -110,18 +138,32 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                             giveUpButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(getApplicationContext(),"Give up button pressed",Toast.LENGTH_SHORT).show();
-                                    HashMap hashMap = new HashMap();
-                                    hashMap.put("courierID", "");
-                                    hashMap.put("status","posted");
-                                    databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingListDetailedActivity.this).create();
+                                    alertDialog.setMessage("Are you sure you want to give up?");
+                                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                                         @Override
-                                        public void onSuccess(Object o) {
-                                            Toast.makeText(getApplicationContext(),"You have given up", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(getApplicationContext(),MyResponsesActivity.class));
-                                            finish();
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            HashMap hashMap = new HashMap();
+                                            hashMap.put("courierID", "");
+                                            hashMap.put("status","posted");
+                                            databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                                                @Override
+                                                public void onSuccess(Object o) {
+                                                    Toast.makeText(getApplicationContext(),"You have given up", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(getApplicationContext(),MyResponsesActivity.class));
+                                                    finish();
+                                                }
+                                            });
+                                            dialog.dismiss();
                                         }
                                     });
+                                    alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                                    alertDialog.show();
 
                                 }
                             });
@@ -229,10 +271,28 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
             //usuwanie ogloszenia
             case R.id.deleteOption:{
                 Toast.makeText(getApplicationContext(), "Shopping list deleted", Toast.LENGTH_SHORT).show();
-                if(sh!=null){
-                    databaseReference.removeValue();
-                    startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
-                    finish();
+                if(sh!=null && (sh.getStatus().equals("accepted") || sh.getStatus().equals("bought"))){
+                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingListDetailedActivity.this).create();
+                    alertDialog.setMessage("Are you sure you want to delete the post?");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            databaseReference.removeValue();
+                            startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
+                            alertDialog.dismiss();
+                            finish();
+                        }
+                    });
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+
+                }else{
+                    Toast.makeText(ShoppingListDetailedActivity.this, "You can not delete this post as it is being proceeded", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -253,24 +313,40 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
             // widziala to w statusach swoich ogloszen
             case R.id.respondOption:{
                 if(sh!=null){
-                    if(sh.getCourierID().isEmpty()){
-                        HashMap hashMap = new HashMap();
-                        hashMap.put("courierID", firebaseUser.getUid());
-                        hashMap.put("status", "accepted");
-                        databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                    if (sh.getCourierID().isEmpty()) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(ShoppingListDetailedActivity.this).create();
+                        alertDialog.setMessage("Do you want to respond to the post?");
+                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onSuccess(Object o) {
-                               Toast.makeText(getApplicationContext(),"Challenge is taken!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("userid", sh.getUserID());
-                            intent.putExtras(bundle);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
+                            public void onClick(DialogInterface dialog, int which) {
+                                HashMap hashMap = new HashMap();
+                                hashMap.put("courierID", firebaseUser.getUid());
+                                hashMap.put("status", "accepted");
+                                databaseReference.updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
+                                    @Override
+                                    public void onSuccess(Object o) {
+                                        Toast.makeText(getApplicationContext(), "Challenge is taken!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("userid", sh.getUserID());
+                                        intent.putExtras(bundle);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                });
+                                dialog.dismiss();
                             }
                         });
-                    } else {
+                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    }else {
                         Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("userid", sh.getUserID());
@@ -281,22 +357,29 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                     }
                     }
 
-
                 break;
             }
             //usuwanie realizowanego ogloszenia oraz ocenianie dostawcy
             case R.id.doneOption:{
                 if(sh!=null){
-                    databaseReference.removeValue();
-                    if(!Objects.equals(sh.getCourierID(), "")) {
-                        Intent intent = new Intent(getApplicationContext(), RateActivity.class);
-                        intent.putExtra("courierId", sh.getCourierID());
-                        startActivity(intent);
-                    }
-                    else {
-                        startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
-                        finish();
-                    }
+                    AlertDialog alertDialog = new AlertDialog.Builder(ShoppingListDetailedActivity.this).create();
+                    alertDialog.setMessage("Are you sure you want to mark the post as done? If yes the post will be removed.");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            databaseReference.removeValue();
+                            if(!Objects.equals(sh.getCourierID(), "")) {
+                                Intent intent = new Intent(getApplicationContext(), RateActivity.class);
+                                intent.putExtra("courierId", sh.getCourierID());
+                                startActivity(intent);
+                            }
+                            else {
+                                startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
+                                finish();
+                            }
+                        }
+                    });
+                    alertDialog.show();
                 }
             }
         }
