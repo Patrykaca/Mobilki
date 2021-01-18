@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,6 +71,7 @@ public class AddShoppingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_shopping_list);
+
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -92,7 +95,26 @@ public class AddShoppingListActivity extends AppCompatActivity {
     }
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        if(items.size()!=0 || !cityEditText.getText().toString().isEmpty() || !shopEditText.getText().toString().isEmpty()
+            || !addressEditText.getText().toString().isEmpty()){
+            AlertDialog alertDialog = new AlertDialog.Builder(AddShoppingListActivity.this).create();
+            alertDialog.setMessage("Do you want to save changes?");
+            alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    saveOrUpdateChanges();
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    onBackPressed();
+                }
+            });
+            alertDialog.show();
+        }
         return true;
     }
 
@@ -128,48 +150,65 @@ public class AddShoppingListActivity extends AppCompatActivity {
         addShLBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkShLValues()){
-                    String shop = shopEditText.getText().toString().trim();
-                    String city = cityEditText.getText().toString().trim();
-                    String address = addressEditText.getText().toString().trim();
+                    saveOrUpdateChanges();
+            }
+        });
+    }
 
-                    if(shopEditText.getText().toString().isEmpty())
-                        shop = "Any";
-                    if(getIntent().getExtras() == null){
-                        DatabaseReference newPost = databaseReference.push();
+    private void saveOrUpdateChanges() {
+        if(checkShLValues()) {
+            String shop = shopEditText.getText().toString().trim();
+            String city = cityEditText.getText().toString().trim();
+            String address = addressEditText.getText().toString().trim();
 
-                        ShoppingList shoppingList = new ShoppingList(newPost.getKey(),shop,items,address,city,firebaseUser.getUid(),nameSurname,"posted","");
-                        newPost.setValue(shoppingList).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Toast.makeText(getApplicationContext(), "Shopping list posted", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),ShoppingListActivity.class));
-                                finish();
-                            }
-                        });
-                    }else{
+            if (shopEditText.getText().toString().isEmpty())
+                shop = "Any";
+            if (getIntent().getExtras() == null) {
+                DatabaseReference newPost = databaseReference.push();
 
+                ShoppingList shoppingList = new ShoppingList(newPost.getKey(), shop, items, address, city, firebaseUser.getUid(), nameSurname, "posted", "");
+                newPost.setValue(shoppingList).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Shopping list posted", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), ShoppingListActivity.class));
+                        finish();
+                    }
+                });
+            } else {
+                AlertDialog alertDialog = new AlertDialog.Builder(AddShoppingListActivity.this).create();
+                alertDialog.setMessage("Are you sure you want to update the post?");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         HashMap hashMap = new HashMap();
-                        hashMap.put("city",city);
-                        hashMap.put("address",address);
-                        hashMap.put("items",items);
-                        hashMap.put("shop",shop);
+                        hashMap.put("city", cityEditText.getText().toString().trim());
+                        hashMap.put("address", addressEditText.getText().toString().trim());
+                        hashMap.put("items", items);
+                        hashMap.put("shop", shopEditText.getText().toString().trim());
                         databaseReference.child(sh.getId()).updateChildren(hashMap).addOnSuccessListener(new OnSuccessListener() {
                             @Override
                             public void onSuccess(Object o) {
                                 Toast.makeText(getApplicationContext(), "Shopping list updated", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
+                                startActivity(new Intent(getApplicationContext(), MyShLActivity.class));
                                 finish();
                             }
                         });
                     }
+                });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                alertDialog.show();
 
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
-                }
             }
-        });
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initAddItemButtonListener() {

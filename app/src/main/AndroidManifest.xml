@@ -30,7 +30,8 @@
         <activity android:name=".activities.MyResponsesActivity" />
         <activity android:name=".activities.MyShLActivity" />
         <activity android:name=".activities.ChatsActivity" />
-        <activity android:name=".activities.ShoppingListDetailedActivity" />
+        <activity android:name=".activities.ShoppingListDetailedActivity"
+            />
         <activity android:name=".activities.AddShoppingListActivity" />
         <activity android:name=".activities.ShoppingListActivity" />
         <activity android:name=".register.WelcomeScreenActivity" />
