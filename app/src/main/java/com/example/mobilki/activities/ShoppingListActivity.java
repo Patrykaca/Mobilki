@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
+    TextView textView;
 
     private List<ShoppingList> shoppingLists = new ArrayList<>();
 
@@ -102,6 +104,10 @@ public class ShoppingListActivity extends AppCompatActivity {
                 ShoppingList newShL = snapshot.getValue(ShoppingList.class);
                 if(!firebaseUser.getUid().equals(newShL.getUserID()) && newShL.getCourierID().isEmpty()){
                     shoppingLists.add(newShL);
+                    if(shoppingLists.isEmpty())
+                        textView.setVisibility(View.VISIBLE);
+                    else
+                        textView.setVisibility(View.INVISIBLE);
                     adapter.notifyDataSetChanged();
                 }
 
@@ -237,6 +243,11 @@ public class ShoppingListActivity extends AppCompatActivity {
 
         adapter = new ShoppingListAdapter(this,shoppingLists);
         recyclerView.setAdapter(adapter);
+        textView = findViewById(R.id.nothing);
+        if(shoppingLists.isEmpty())
+            textView.setVisibility(View.VISIBLE);
+        else
+            textView.setVisibility(View.INVISIBLE);
     }
 
 

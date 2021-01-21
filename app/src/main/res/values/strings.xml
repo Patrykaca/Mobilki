@@ -40,7 +40,7 @@
     <string name="log_out">Log out</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-    <string name="save">Save</string>
+    <string name="save">Post Shopping List</string>
 
     <!--introduction-->
     <string name="title_1">Shopping</string>
@@ -82,6 +82,7 @@
     <string name="profile_rates_number">Rates number:</string>
     <string name="all_posts">All posts</string>
     <string name="shop_1">Shop:</string>
+    <string name="no_lists_yet">No lists yet</string>
 
 
 </resources>
