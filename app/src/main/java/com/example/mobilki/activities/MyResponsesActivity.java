@@ -10,11 +10,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobilki.R;
 import com.example.mobilki.adapters.MyShoppingListAdapter;
 import com.example.mobilki.classes.ShoppingList;
+import com.example.mobilki.notifications.MyResponse;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +38,7 @@ public class MyResponsesActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
+    private TextView textView;
 
     private RecyclerView responsesRecyclerView;
     private MyShoppingListAdapter adapter;
@@ -49,6 +53,11 @@ public class MyResponsesActivity extends AppCompatActivity {
         initFirebaseConnection();
 
         responsesRecyclerView = findViewById(R.id.responsesRecyclerView);
+        textView = findViewById(R.id.nothing);
+        if(lists.isEmpty())
+            textView.setVisibility(View.VISIBLE);
+        else
+            textView.setVisibility(View.INVISIBLE);
         adapter = new MyShoppingListAdapter(this,lists,true);
         responsesRecyclerView.setAdapter(adapter);
         responsesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -58,6 +67,7 @@ public class MyResponsesActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        startActivity(new Intent(MyResponsesActivity.this, ShoppingListActivity.class));
         return true;
     }
 
@@ -72,6 +82,10 @@ public class MyResponsesActivity extends AppCompatActivity {
                 ShoppingList newShL = snapshot.getValue(ShoppingList.class);
                 if(firebaseUser.getUid().equals(newShL.getCourierID())){
                     lists.add(newShL);
+                    if(lists.isEmpty())
+                        textView.setVisibility(View.VISIBLE);
+                    else
+                        textView.setVisibility(View.INVISIBLE);
                     adapter.notifyDataSetChanged();
                 }
             }

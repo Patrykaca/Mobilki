@@ -21,6 +21,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="25"/>
+        <TextView
+            android:id="@+id/nothing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_lists_yet"
+            android:textSize="20sp"
+            android:textAlignment="center"/>
         <Button
             android:id="@+id/addShLButton"
             android:layout_width="match_parent"

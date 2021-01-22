@@ -270,8 +270,7 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
         switch (item.getItemId()){
             //usuwanie ogloszenia
             case R.id.deleteOption:{
-                Toast.makeText(getApplicationContext(), "Shopping list deleted", Toast.LENGTH_SHORT).show();
-                if(sh!=null && (sh.getStatus().equals("accepted") || sh.getStatus().equals("bought"))){
+                if(sh!=null && !sh.getStatus().equals("accepted") && !sh.getStatus().equals("bought")){
                     AlertDialog alertDialog = new AlertDialog.Builder(ShoppingListDetailedActivity.this).create();
                     alertDialog.setMessage("Are you sure you want to delete the post?");
                     alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
@@ -280,6 +279,7 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                             databaseReference.removeValue();
                             startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
                             alertDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Shopping list deleted", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     });
@@ -377,6 +377,13 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(),MyShLActivity.class));
                                 finish();
                             }
+                        }
+                    });
+
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                         }
                     });
                     alertDialog.show();

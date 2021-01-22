@@ -6,8 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mobilki.R;
 import com.example.mobilki.adapters.MyShoppingListAdapter;
@@ -28,6 +33,7 @@ public class MyShLActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MyShoppingListAdapter adapter;
     List<ShoppingList> lists;
+    TextView textView;
 
     private DatabaseReference databaseReference;
     private FirebaseDatabase firebaseDatabase;
@@ -53,6 +59,8 @@ public class MyShLActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
+        startActivity(new Intent(MyShLActivity.this,ShoppingListActivity.class));
+        finish();
         return true;
     }
 
@@ -67,6 +75,12 @@ public class MyShLActivity extends AppCompatActivity {
                 ShoppingList newShL = snapshot.getValue(ShoppingList.class);
                 if(firebaseUser.getUid().equals(newShL.getUserID())){
                     lists.add(newShL);
+                    if(lists.isEmpty()) {
+                        textView.setVisibility(View.VISIBLE);
+                        Log.d("ListCheck", "Empty");
+                    }
+                    else
+                        textView.setVisibility(View.INVISIBLE);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -106,5 +120,12 @@ public class MyShLActivity extends AppCompatActivity {
         adapter = new MyShoppingListAdapter(this,lists,false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        textView = findViewById(R.id.nothing);
+        if(lists.isEmpty()) {
+            textView.setVisibility(View.VISIBLE);
+            Log.d("ListCheck", "Empty");
+        }
+        else
+            textView.setVisibility(View.INVISIBLE);
     }
 }

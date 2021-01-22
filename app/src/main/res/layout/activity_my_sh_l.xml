@@ -11,6 +11,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myShLRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/nothing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_lists_yet"
+        android:textSize="20sp"
+        android:textAlignment="center"/>
 
 </LinearLayout>
