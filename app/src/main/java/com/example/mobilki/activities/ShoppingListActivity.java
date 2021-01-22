@@ -90,11 +90,19 @@ public class ShoppingListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            setUserStatus("offline");
+        }
+    }
 
 
     @Override
     protected void onStart() {
         super.onStart();
+        setUserStatus("online");
         shoppingLists.clear();
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
@@ -293,7 +301,6 @@ public class ShoppingListActivity extends AppCompatActivity {
     }
 
 
-
     private void setUserStatus(String status) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
@@ -302,15 +309,5 @@ public class ShoppingListActivity extends AppCompatActivity {
         databaseReference.updateChildren(hashMap);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUserStatus("online");
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        setUserStatus("offline");
-    }
 }
