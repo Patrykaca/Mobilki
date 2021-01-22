@@ -93,6 +93,14 @@ public class ShoppingListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            setUserStatus("online");
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
