@@ -146,7 +146,7 @@ public class ChatsFragment extends Fragment {
                         }
                     }
                 }
-                if (!recId.isEmpty()) {
+                if (!recId.isEmpty()) { //wypisuje tylko tego od którego mamy nieodczytaną wiadmomość
                     List<Object> newRec = recId.stream().distinct().collect(Collectors.toList());
                     List<User> newUsers = new ArrayList<>();
                     for (User user : users) {
@@ -156,23 +156,18 @@ public class ChatsFragment extends Fragment {
                             }
                         }
                     }
-
-                    boolean flag = false;
+                            //dodajemy pozostałych
                     for (int i = 0; i < users.size(); i++) {
                         for (int j = 0; j < newUsers.size(); j++) {
                             if (users.get(i).getId().equals(newUsers.get(j).getId())) {
-                                flag = true;
-                                break;
-                            }
-                            if (flag) {
-                                newUsers.add(users.get(i));
+                                User tmp = users.get(i);
+                                users.remove(i);
+                                users.add(0, tmp);
                             }
                         }
                     }
-                    userAdapter = new UserAdapter(getContext(), newUsers, true);
-                } else {
-                    userAdapter = new UserAdapter(getContext(), users, true);
                 }
+                userAdapter = new UserAdapter(getContext(), users, true);
 
                 recyclerView.setAdapter(userAdapter);
             }
