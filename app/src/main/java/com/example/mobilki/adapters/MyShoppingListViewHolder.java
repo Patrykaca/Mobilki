@@ -1,6 +1,7 @@
 package com.example.mobilki.adapters;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,9 +27,22 @@ public class MyShoppingListViewHolder extends RecyclerView.ViewHolder {
         quantityTextView = view.findViewById(R.id.quantityTextView);
         cardView = view.findViewById(R.id.my_sh_l_item_card);
     }
+    public void setStatusTextColor(ShoppingList sh){
+        if(sh.getStatus().equals("posted")){
+            statusTextView.setTextColor(Color.parseColor("#9fdfbb"));
+        }
+        else if(sh.getStatus().equals("accepted")){
+            statusTextView.setTextColor(Color.parseColor("#66cc92"));
+        }else if(sh.getStatus().equals("bought")){
+            statusTextView.setTextColor(Color.parseColor("#267347"));
+        }else if(sh.getStatus().equals("delivered")){
+            statusTextView.setTextColor(Color.parseColor("#133924"));
+        }
+    }
 
     public void onBind(final ShoppingList shoppingList, final boolean active) {
         statusTextView.setText(shoppingList.getStatus());
+        setStatusTextColor(shoppingList);
         addressTextView.setText(shoppingList.getAddress());
         quantityTextView.setText(Integer.toString(shoppingList.getItems().size()));
         cardView.setOnClickListener(new View.OnClickListener() {

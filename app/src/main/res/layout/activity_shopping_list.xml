@@ -14,13 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.ShoppingListActivity" android:orientation="vertical">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/shoppingListsRecyclerView"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="25"/>
         <TextView
             android:id="@+id/nothing"
             android:layout_width="match_parent"
@@ -28,6 +21,12 @@
             android:text="@string/no_lists_yet"
             android:textSize="20sp"
             android:textAlignment="center"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/shoppingListsRecyclerView"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"/>
         <Button
             android:id="@+id/addShLButton"
             android:layout_width="match_parent"

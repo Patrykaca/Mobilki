@@ -121,6 +121,7 @@ public class MyShLActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         textView = findViewById(R.id.nothing);
+        getSupportActionBar().setTitle("My Shopping list posts");
         if(lists.isEmpty()) {
             textView.setVisibility(View.VISIBLE);
             Log.d("ListCheck", "Empty");
