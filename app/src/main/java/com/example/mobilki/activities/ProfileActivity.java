@@ -68,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         rate = findViewById(R.id.rate);
         rateCount = findViewById(R.id.rateCount);
 
+
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -89,6 +90,8 @@ public class ProfileActivity extends AppCompatActivity {
                 } else {
                     Picasso.get().load(user.getImageUrl()).into(image_profile);
                 }
+                Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
 
             }
 
@@ -101,5 +104,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }

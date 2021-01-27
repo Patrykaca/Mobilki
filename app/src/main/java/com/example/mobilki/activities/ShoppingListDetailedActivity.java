@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
@@ -40,8 +41,10 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
     private TextView itemsTextView;
     private TextView shopTextView;
     private TextView statusTextView;
+    private TextView nameSurnameTextView;
 
-    private Button giveUpButton, updateStatusButton;
+    private Button giveUpButton;
+    private Button updateStatusButton;
 
     private ShoppingList sh;
 
@@ -74,6 +77,8 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                     addressTextView.setText(sh.getAddress().toString());
                     shopTextView.setText(sh.getShop().toString());
                     statusTextView.setText(sh.getStatus());
+                    nameSurnameTextView.setText(sh.getNameSurname());
+
 
                     String status="";
                     if(sh.getStatus().equals("accepted")){
@@ -82,9 +87,11 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                         status = "Update status to delivered";
                     }
                     updateStatusButton.setText(status);
+                    setStatusTextColor();
 
                     if(sh.getStatus().equals("delivered")){
                         updateStatusButton.setVisibility(View.INVISIBLE);
+
                     }
 
                     //obsluga oraz widocznosc przyciskow do zmiany statusu albo rezygnacji w zaleznosci czy to
@@ -93,7 +100,9 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                     try {
                         boolean active = getIntent().getExtras().getBoolean("active");
                         if(active){
-                            updateStatusButton.setVisibility(View.VISIBLE);
+                            if(sh.getStatus().equals("delivered")){
+                                updateStatusButton.setVisibility(View.INVISIBLE);
+                            }
                             giveUpButton.setVisibility(View.VISIBLE);
 
                             updateStatusButton.setOnClickListener(new View.OnClickListener() {
@@ -104,9 +113,11 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                                         if(sh.getStatus().equals("accepted")){
                                             hashMap.put("status","bought");
                                             newStatus = "bought";
+                                            setStatusTextColor();
                                         }else if(sh.getStatus().equals("bought")){
                                             hashMap.put("status","delivered");
                                             newStatus = "delivered";
+                                            setStatusTextColor();
                                         }
                                         AlertDialog alertDialog = new AlertDialog.Builder(ShoppingListDetailedActivity.this).create();
                                         alertDialog.setMessage("Are you sure you want to update status to " + hashMap.get("status") + "?");
@@ -116,6 +127,20 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                                                 public void onSuccess(Object o) {
                                                     sh.setStatus(newStatus);
                                                     statusTextView.setText(newStatus);
+                                                    Toast.makeText(ShoppingListDetailedActivity.this, "Status updated to " + newStatus,Toast.LENGTH_SHORT).show();
+                                                    if(!sh.getStatus().equals("delivered")){
+                                                        if(sh.getStatus().equals("accepted")){
+                                                            updateStatusButton.setText("Update status to bought");
+                                                            setStatusTextColor();
+                                                        }else if(sh.getStatus().equals("bought")){
+                                                            updateStatusButton.setText("Update status to delivered");
+                                                            setStatusTextColor();
+                                                        }
+                                                    }else{
+                                                        updateStatusButton.setVisibility(View.INVISIBLE);
+                                                        setStatusTextColor();
+                                                    }
+
                                                 }
                                             });
                                             dialog.dismiss();
@@ -129,6 +154,7 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
                                         alertDialog.show();
                                     }
                                     else {
+                                        updateStatusButton.setVisibility(View.INVISIBLE);
                                         Toast.makeText(ShoppingListDetailedActivity.this, "Nothing to update", Toast.LENGTH_SHORT).show();
                                     }
 
@@ -211,6 +237,16 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
 
     }
 
+    public void setStatusTextColor(){
+        if(sh.getStatus().equals("accepted")){
+            statusTextView.setTextColor(Color.parseColor("#66cc92"));
+        }else if(sh.getStatus().equals("bought")){
+            statusTextView.setTextColor(Color.parseColor("#267347"));
+        }else if(sh.getStatus().equals("delivered")){
+            statusTextView.setTextColor(Color.parseColor("#133924"));
+        }
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -223,6 +259,7 @@ public class ShoppingListDetailedActivity extends AppCompatActivity {
         itemsTextView = findViewById(R.id.itemsTextView);
         shopTextView = findViewById(R.id.shopTextView);
         statusTextView = findViewById(R.id.statusTextView);
+        nameSurnameTextView = findViewById(R.id.nameSurnameView);
 
         updateStatusButton = findViewById(R.id.updateStatusButton);
         giveUpButton = findViewById(R.id.giveUpButton);

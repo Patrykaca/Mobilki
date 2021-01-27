@@ -62,6 +62,8 @@ public class MyResponsesActivity extends AppCompatActivity {
         responsesRecyclerView.setAdapter(adapter);
         responsesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        getSupportActionBar().setTitle("My responses");
+
     }
 
     @Override

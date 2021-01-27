@@ -10,7 +10,7 @@
     <string name="age_hint">Age</string>
     <string name="btn_login">Sign in</string>
     <string name="btn_register">Sign up</string>
-    <string name="add_shop_list">Add shopping list</string>
+    <string name="add_shop_list">Post new shopping list</string>
     <string name="search">Search</string>
     <string name="Settings">settings</string>
     <string name="shop">Shop</string>
@@ -83,6 +83,7 @@
     <string name="all_posts">All posts</string>
     <string name="shop_1">Shop:</string>
     <string name="no_lists_yet">No lists yet</string>
+    <string name="shopping_list_posts">Shopping list posts</string>
 
 
 </resources>

@@ -59,6 +59,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     NavigationView navigationView;
     TextView textView;
 
+
     private List<ShoppingList> shoppingLists = new ArrayList<>();
 
 
@@ -248,6 +249,9 @@ public class ShoppingListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         actionBarDrawerToggle.syncState();
+
+        //ustawienie tytuly dla pasku
+        getSupportActionBar().setTitle("Shopping list posts");
 
         navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.inflateHeaderView(R.layout.navigation_header);
