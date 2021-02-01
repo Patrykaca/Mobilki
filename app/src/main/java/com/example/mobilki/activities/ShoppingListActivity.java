@@ -132,12 +132,25 @@ public class ShoppingListActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                ShoppingList newShL = snapshot.getValue(ShoppingList.class);
+                for(int i = 0; i< shoppingLists.size(); i++){
+                    if(shoppingLists.get(i).getId().equals(newShL.getId())){
+                        shoppingLists.remove(shoppingLists.get(i));
+                        shoppingLists.add(i,newShL);
+                    }
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                ShoppingList newShL = snapshot.getValue(ShoppingList.class);
+                for(int i = 0; i< shoppingLists.size(); i++){
+                    if(shoppingLists.get(i).getId().equals(newShL.getId())){
+                        shoppingLists.remove(shoppingLists.get(i));
+                    }
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
