@@ -8,7 +8,13 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite"
+        android:ems="15"
+        android:background="@drawable/edit_round"
+        android:drawableLeft="@drawable/ic_baseline_search_24"
         android:id="@+id/search_users"
         android:hint="@string/search_users" />
 
