@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ChatsActivity"
-    android:orientation="vertical">
+    tools:context=".activities.ChatsActivity">
 
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
+        android:layout_above="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_height="match_parent" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:background="@color/bar"
             app:tabSelectedTextColor="@color/darkGrey"
             app:tabIndicatorColor="@color/darkGrey"
             app:tabIconTint="@color/your_color_selector"
             app:tabTextColor="@color/colorWhite"
-            android:layout_height="match_parent"
-            android:layout_weight="10"
             />
 
 
@@ -31,4 +30,4 @@
 
 
 
-</LinearLayout>
+</RelativeLayout>
