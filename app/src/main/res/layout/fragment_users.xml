@@ -13,6 +13,7 @@
         android:textColor="@color/colorWhite"
         android:textColorHint="@color/colorWhite"
         android:ems="15"
+        android:drawablePadding="8dp"
         android:background="@drawable/edit_round"
         android:drawableLeft="@drawable/ic_baseline_search_24"
         android:id="@+id/search_users"
