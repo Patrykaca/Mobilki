@@ -28,6 +28,11 @@ import java.util.Objects;
 
 public class ChatsActivity extends AppCompatActivity {
 
+    private int[] tabIcons = {
+            R.drawable.ic_baseline_chat_bubble_24,
+            R.drawable.ic_baseline_supervisor_account_24
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class ChatsActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");
         viewPagerAdapter.addFragment(new UsersFragment(), "Users");
-        viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
+        //viewPagerAdapter.addFragment(new ProfileFragment(), "Profile");
 
         viewPager.setAdapter(viewPagerAdapter);
         int position = 0;
@@ -53,6 +58,9 @@ public class ChatsActivity extends AppCompatActivity {
         }
         viewPager.setCurrentItem(position);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout .getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+
     }
 
     @Override
