@@ -52,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int IMAGE_REQUEST = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
+    private  User user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
+                user = snapshot.getValue(User.class);
 
 
                 username.setText(user.getFirstName());
@@ -100,6 +101,16 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+        //////////// from
+        image_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(user !=null && firebaseUser.getUid().equals(user.getId())){
+                    openImage();
+                }
+            }
+        });
+        //////////////// to
 
 
     }
@@ -109,4 +120,84 @@ public class ProfileActivity extends AppCompatActivity {
         finish();
         return true;
     }
+
+    ////////////////////// from
+    private void openImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, IMAGE_REQUEST);
+    }
+
+    private String getFileExtesion(Uri uri) {
+        ContentResolver contentResolver = ProfileActivity.this.getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void uploadImage() {
+        final ProgressDialog pd = new ProgressDialog(ProfileActivity.this);
+        pd.setMessage("Uploading");
+        pd.show();
+
+        if (imageUri != null) {
+            final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
+                    +"."+getFileExtesion(imageUri));
+            uploadTask = fileReference.putFile(imageUri);
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+
+                    return fileReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        //Uri downloadUri = task.getResult();
+                        String mUri = task.getResult().toString();
+
+                        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("imageUrl", mUri);
+                        reference.updateChildren(map);
+
+                        pd.dismiss();
+                    } else {
+                        Toast.makeText(ProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
+                }
+            });
+        } else {
+            Toast.makeText(ProfileActivity.this, "No image selected!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null){
+            imageUri = data.getData();
+
+            if (uploadTask != null && uploadTask.isInProgress()){
+                Toast.makeText(ProfileActivity.this, "Upload in preogress", Toast.LENGTH_SHORT).show();
+            } else {
+                uploadImage();
+            }
+        }
+    }
+
+    //////////////////////// to
 }
