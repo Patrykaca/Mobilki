@@ -95,11 +95,25 @@ public class MyResponsesActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
+                ShoppingList newShL = snapshot.getValue(ShoppingList.class);
+                for(int i = 0; i< lists.size(); i++){
+                    if(lists.get(i).getId().equals(newShL.getId())){
+                        lists.remove(lists.get(i));
+                        lists.add(i,newShL);
+                    }
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                ShoppingList newShL = snapshot.getValue(ShoppingList.class);
+                for(int i = 0; i< lists.size(); i++){
+                    if(lists.get(i).getId().equals(newShL.getId())){
+                        lists.remove(lists.get(i));
+                    }
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override

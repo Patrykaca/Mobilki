@@ -288,7 +288,7 @@ public class AddShoppingListActivity extends AppCompatActivity {
         //jesli to jednak widok edycji ....
         if(getIntent().getExtras() != null){
             sh = (ShoppingList) getIntent().getExtras().getSerializable("sh");
-            Toast.makeText(this,sh.getAddress(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,sh.getAddress(),Toast.LENGTH_SHORT).show();
             addressEditText.setText(sh.getAddress());
             cityEditText.setText(sh.getCity());
             shopEditText.setText(sh.getShop());
