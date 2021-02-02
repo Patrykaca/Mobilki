@@ -71,7 +71,7 @@ public class ShoppingListActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseUser firebaseUser;
     private FirebaseAuth firebaseAuth;
-
+    User user = null;
 
 
 
@@ -196,9 +196,24 @@ public class ShoppingListActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id){
                     case R.id.my_profile:{
-                        Intent intent = new Intent(getApplicationContext(), ChatsActivity.class);
-                        intent.putExtra("key", 2);
-                        startActivity(intent);
+                        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+                        reference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                user = snapshot.getValue(User.class);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                        if(user!=null){
+                            Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
+                            intent.putExtra("user", user);
+                            startActivity(intent);
+                        }
                         break;
                     }
                     case R.id.chats:{
