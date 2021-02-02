@@ -20,6 +20,7 @@
             android:background="@color/bar"
             app:tabSelectedTextColor="@color/darkGrey"
             app:tabIndicatorColor="@color/darkGrey"
+            app:tabIconTint="@color/your_color_selector"
             app:tabTextColor="@color/colorWhite"
             android:layout_height="match_parent"
             android:layout_weight="10"

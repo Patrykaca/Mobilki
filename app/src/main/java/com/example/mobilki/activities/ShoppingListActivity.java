@@ -173,8 +173,21 @@ public class ShoppingListActivity extends AppCompatActivity {
        firebaseDatabase = FirebaseDatabase.getInstance();
        databaseReference = firebaseDatabase.getReference().child("Advertisements");
        databaseReference.keepSynced(true);
-    }
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user = snapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
     private void initAddShoppingListButtonListener() {
@@ -196,19 +209,7 @@ public class ShoppingListActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 switch (id){
                     case R.id.my_profile:{
-                        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-                        reference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                user = snapshot.getValue(User.class);
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
                         if(user!=null){
                             Intent intent = new Intent(getApplicationContext(),ProfileActivity.class);
                             intent.putExtra("user", user);
